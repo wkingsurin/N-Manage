@@ -6,6 +6,7 @@
 
 :root {
 	--primary: #3b82f6;
+	--primary-500: oklch(0.6231 0.188 259.81 / 50%);
 	--secondary: #6366f1;
 	--surface: #ffffff;
 	--accent: #22c55e;
@@ -60,6 +61,7 @@
 	--color-foreground: var(--foreground);
 	--color-surface: var(--surface);
 	--color-primary: var(--primary);
+	--color-primary-500: var(--primary-500);
 	--color-secondary: var(--secondary);
 	--color-accent: var(--accent);
 	--color-dark: var(--dark);
