@@ -5,16 +5,17 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-	--primary: oklch(0.205 0 0);
-	--secondary: oklch(0.97 0 0);
+	--primary: #3B82F6;
+	--secondary: #6366F1;
 	--surface: #ffffff;
-	--accent: oklch(0.97 0 0);
+	--accent: #22C55E;
 	--dark: #1e293b;
+	--dark-50: oklch(0.2795 0.0368 260.02 / 5%);
 	--completed: #22c55e;
 	--progress: #3b82f6;
 	--soon: #f59e0b;
 	--overdue: #ef4444;
-	--background: oklch(1 0 0);
+	--background: #F8FAFC;
 	--foreground: oklch(0.145 0 0);
 	--card: oklch(1 0 0);
 	--card-foreground: oklch(0.145 0 0);
@@ -53,6 +54,7 @@
 	--color-secondary: var(--secondary);
 	--color-accent: var(--accent);
 	--color-dark: var(--dark);
+	--color-dark-50: var(--dark-50);
 	--color-completed: var(--completed);
 	--color-progress: var(--progress);
 	--color-soon: var(--soon);
@@ -93,6 +95,7 @@
 	--radius-2xl: calc(var(--radius) * 1.8);
 	--radius-3xl: calc(var(--radius) * 2.2);
 	--radius-4xl: calc(var(--radius) * 2.6);
+	--shadow-md: 0 4px 5px 1px var(--dark-50);
 }
 
 body {
