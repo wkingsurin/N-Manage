@@ -5,17 +5,26 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-	--primary: #3B82F6;
-	--secondary: #6366F1;
+	--primary: #3b82f6;
+	--secondary: #6366f1;
 	--surface: #ffffff;
-	--accent: #22C55E;
+	--accent: #22c55e;
 	--dark: #1e293b;
 	--dark-50: oklch(0.2795 0.0368 260.02 / 5%);
+	--dark-100: oklch(0.2795 0.0368 260.02 / 10%);
+	--dark-200: oklch(0.2795 0.0368 260.02 / 20%);
+	--dark-300: oklch(0.2795 0.0368 260.02 / 30%);
+	--dark-400: oklch(0.2795 0.0368 260.02 / 40%);
+	--dark-500: oklch(0.2795 0.0368 260.02 / 50%);
+	--dark-600: oklch(0.2795 0.0368 260.02 / 60%);
+	--dark-700: oklch(0.2795 0.0368 260.02 / 70%);
+	--dark-800: oklch(0.2795 0.0368 260.02 / 80%);
+	--dark-900: oklch(0.2795 0.0368 260.02 / 90%);
 	--completed: #22c55e;
 	--progress: #3b82f6;
 	--soon: #f59e0b;
 	--overdue: #ef4444;
-	--background: #F8FAFC;
+	--background: #f8fafc;
 	--foreground: oklch(0.145 0 0);
 	--card: oklch(1 0 0);
 	--card-foreground: oklch(0.145 0 0);
@@ -55,6 +64,15 @@
 	--color-accent: var(--accent);
 	--color-dark: var(--dark);
 	--color-dark-50: var(--dark-50);
+	--color-dark-100: var(--dark-100);
+	--color-dark-200: var(--dark-200);
+	--color-dark-300: var(--dark-300);
+	--color-dark-400: var(--dark-400);
+	--color-dark-500: var(--dark-500);
+	--color-dark-600: var(--dark-600);
+	--color-dark-700: var(--dark-700);
+	--color-dark-800: var(--dark-800);
+	--color-dark-900: var(--dark-900);
 	--color-completed: var(--completed);
 	--color-progress: var(--progress);
 	--color-soon: var(--soon);
@@ -110,7 +128,7 @@ body {
 	--card-foreground: oklch(0.985 0 0);
 	--popover: oklch(0.205 0 0);
 	--popover-foreground: oklch(0.985 0 0);
-	--primary: oklch(0.87 0.00 0);
+	--primary: oklch(0.87 0 0);
 	--primary-foreground: oklch(0.205 0 0);
 	--secondary: oklch(0.269 0 0);
 	--secondary-foreground: oklch(0.985 0 0);
@@ -138,13 +156,13 @@ body {
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+	* {
+		@apply border-border outline-ring/50;
 	}
-  body {
-    @apply bg-background text-foreground;
+	body {
+		@apply bg-background text-foreground;
 	}
-  html {
-    @apply font-sans;
+	html {
+		@apply font-sans;
 	}
 }
