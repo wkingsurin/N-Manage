@@ -5,7 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { useState } from 'react'
+import { useState } from "react";
+
+import { signIn } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export default function SignIn() {
 	const [formData, setFormData] = useState({
@@ -13,10 +16,22 @@ export default function SignIn() {
 		password: "",
 	});
 
-	const onSubmit = (e: React.SubmitEvent<HTMLFormElement>): void => {
-		e.preventDefault()
-		console.log("submit");
-		console.log(formData);
+	const onSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		const result = await signIn("credentials", {
+			email: formData.email,
+			password: formData.password,
+			redirect: false,
+		});
+
+		if (result?.error) {
+			throw new Error("Invalid credentials");
+		} else {
+			console.log(`[STATUS]:`, result.status);
+			console.log(`Success sign in`);
+			redirect("/protectedComponent");
+		}
 	};
 
 	const onTypeEmail = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -38,7 +53,11 @@ export default function SignIn() {
 				</Link>
 				<div className="flex flex-col gap-12 items-center px-7 py-4 rounded-md shadow-md border border-dark-100">
 					<h2 className="font-medium text-3xl">Sign in</h2>
-					<form action="" className="flex flex-col gap-3 w-full" onSubmit={onSubmit}>
+					<form
+						action=""
+						className="flex flex-col gap-3 w-full"
+						onSubmit={onSubmit}
+					>
 						<div className="flex flex-col gap-2">
 							<Label htmlFor="email">Email:</Label>
 							<Input
@@ -65,18 +84,15 @@ export default function SignIn() {
 							/>
 						</div>
 						<div className="flex flex-col gap-1">
-							<Button
-								type="submit"
-								className="h-10"
-							>
+							<Button type="submit" className="h-10">
 								Sign in
 							</Button>
 							<div className="flex items-center justify-between gap-4">
-								<p className="text-dark-500 text-sm">
-									Don`t have an account?
-								</p>
+								<p className="text-dark-500 text-sm">Don`t have an account?</p>
 								<Link href="/sign-up" className="flex">
-									<Button className="text-sm text-dark-500 hover:text-dark bg-transparent hover:bg-transparent w-auto h-auto p-0">Sign up</Button>
+									<Button className="text-sm text-dark-500 hover:text-dark bg-transparent hover:bg-transparent w-auto h-auto p-0">
+										Sign up
+									</Button>
 								</Link>
 							</div>
 						</div>

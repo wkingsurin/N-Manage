@@ -7,17 +7,27 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
 
+import createAccount from "../actions";
+import { redirect } from "next/navigation";
+
 export default function SignUp() {
 	const [formData, setFormData] = useState({
 		email: "",
 		password: "",
-		confirmPassowrd: "",
+		confirmPassword: "",
 	});
 
-	const onSubmit = (e: React.SubmitEvent<HTMLFormElement>): void => {
-		e.preventDefault()
-		console.log("submit");
-		console.log(formData);
+	const onSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		const result = await createAccount(formData);
+
+		if (!result.success) {
+			console.log(result.error);
+			redirect('/')
+		} else {
+			console.log("Success sign up...")
+		}
 	};
 
 	const onTypeEmail = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -28,8 +38,10 @@ export default function SignUp() {
 		setFormData(() => ({ ...formData, password: e.target.value }));
 	};
 
-	const onTypeConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>): void => {
-		setFormData(() => ({ ...formData, confirmPassowrd: e.target.value }));
+	const onTypeConfirmPassword = (
+		e: React.ChangeEvent<HTMLInputElement>
+	): void => {
+		setFormData(() => ({ ...formData, confirmPassword: e.target.value }));
 	};
 
 	return (
