@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 
 export default function Header() {
 	return (
-		<header className="h-15 shadow-md">
+		<header className="h-15 shadow-md mb-[10px]">
 			<div className="container box-border px-4 mx-auto h-full flex justify-between items-center">
 				<Link href="/" className="flex gap-1 items-center">
 					<CalendarClock className="stroke-dark" />

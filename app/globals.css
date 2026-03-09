@@ -7,6 +7,7 @@
 :root {
 	--primary: #3b82f6;
 	--primary-500: oklch(0.6231 0.188 259.81 / 50%);
+	--pale-blue: oklch(0.9523 0.0103 247.93);
 	--secondary: #6366f1;
 	--surface: #ffffff;
 	--accent: #22c55e;
@@ -16,7 +17,7 @@
 	--dark-200: oklch(0.2795 0.0368 260.02 / 20%);
 	--dark-300: oklch(0.2795 0.0368 260.02 / 30%);
 	--dark-400: oklch(0.2795 0.0368 260.02 / 40%);
-	--dark-500: oklch(0.2795 0.0368 260.02 / 50%);
+	--dark-500: oklch(0.2795 0.0368 260.02 / 50 %);
 	--dark-600: oklch(0.2795 0.0368 260.02 / 60%);
 	--dark-700: oklch(0.2795 0.0368 260.02 / 70%);
 	--dark-800: oklch(0.2795 0.0368 260.02 / 80%);
@@ -62,6 +63,7 @@
 	--color-surface: var(--surface);
 	--color-primary: var(--primary);
 	--color-primary-500: var(--primary-500);
+	--color-pale-blue: var(--pale-blue);
 	--color-secondary: var(--secondary);
 	--color-accent: var(--accent);
 	--color-dark: var(--dark);
@@ -116,6 +118,7 @@
 	--radius-3xl: calc(var(--radius) * 2.2);
 	--radius-4xl: calc(var(--radius) * 2.6);
 	--shadow-md: 0 4px 5px 1px var(--dark-50);
+	--shadow-md: 0 0 12px 3px var(--dark-100);
 }
 
 body {
@@ -167,4 +170,8 @@ body {
 	html {
 		@apply font-sans;
 	}
+}
+
+textarea {
+	font-size: 16;
 }
