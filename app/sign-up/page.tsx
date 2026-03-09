@@ -24,9 +24,10 @@ export default function SignUp() {
 
 		if (!result.success) {
 			console.log(result.error);
-			redirect('/')
+			redirect("/");
 		} else {
-			console.log("Success sign up...")
+			console.log("Success sign up...");
+			redirect("/sign-in");
 		}
 	};
 
@@ -53,15 +54,17 @@ export default function SignUp() {
 						<p>Back to App</p>
 					</Button>
 				</Link>
-				<div className="flex flex-col gap-12 items-center px-7 py-4 rounded-md shadow-md border border-dark-100">
+				<div className="flex flex-col gap-7 items-center px-7 py-4 rounded-md shadow-md border border-dark-100">
 					<h2 className="font-medium text-3xl">Sign up</h2>
 					<form
 						action=""
 						className="flex flex-col gap-3 w-full"
 						onSubmit={onSubmit}
 					>
-						<div className="flex flex-col gap-2">
-							<Label htmlFor="email">Email:</Label>
+						<div className="flex flex-col gap-2 items-start">
+							<Label htmlFor="email" className="text-base font-normal">
+								Email:
+							</Label>
 							<Input
 								id="email"
 								type="email"
@@ -72,8 +75,10 @@ export default function SignUp() {
 								onChange={onTypeEmail}
 							/>
 						</div>
-						<div className="flex flex-col gap-2">
-							<Label htmlFor="password">Password:</Label>
+						<div className="flex flex-col gap-2 items-start">
+							<Label htmlFor="password" className="text-base font-normal">
+								Password:
+							</Label>
 							<Input
 								id="password"
 								type="password"
@@ -85,8 +90,10 @@ export default function SignUp() {
 								onChange={onTypePassword}
 							/>
 						</div>
-						<div className="flex flex-col gap-2">
-							<Label htmlFor="confirm-password">Confirm password:</Label>
+						<div className="flex flex-col gap-2 items-start">
+							<Label htmlFor="confirm-password" className="text-base font-normal">
+								Confirm password:
+							</Label>
 							<Input
 								id="confirm-password"
 								type="password"
