@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Poppins, Inter } from "next/font/google";
 import "./globals.css";
 
+import AuthProvider from "@/components/providers/session-provider";
+
 import Header from "@/components/header";
 
 const poppins = Poppins({
@@ -28,8 +30,10 @@ export default async function RootLayout({
 	return (
 		<html lang="en">
 			<body className={`${poppins.variable} ${inter.variable} antialiased`}>
-				<Header />
-				{children}
+				<AuthProvider>
+					<Header />
+					{children}
+				</AuthProvider>
 			</body>
 		</html>
 	);
