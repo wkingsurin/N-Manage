@@ -25,7 +25,8 @@
 	--completed: #22c55e;
 	--progress: #3b82f6;
 	--soon: #f59e0b;
-	--overdue: #ef4444;
+	--overdue: oklch(0.6368 0.2078 25.33);
+	--overdue-700: oklch(0.6368 0.2078 25.33 / 70%);
 	--background: #f8fafc;
 	--foreground: oklch(0.145 0 0);
 	--card: oklch(1 0 0);
@@ -81,6 +82,7 @@
 	--color-progress: var(--progress);
 	--color-soon: var(--soon);
 	--color-overdue: var(--overdue);
+	--color-overdue-700: var(--overdue-700);
 	--font-poppins: var(--font-poppins);
 	--font-inter: var(--font-inter);
 	--font-sans: var(--font-sans);

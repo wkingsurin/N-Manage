@@ -1,10 +1,6 @@
 import { auth } from "@/auth";
 import { redirect, RedirectType } from "next/navigation";
 
-// temp
-import { Pencil, Check, Plus, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-
 import Card from "@/components/card";
 
 export default async function Dashboard() {
@@ -16,7 +12,7 @@ export default async function Dashboard() {
 
 	return (
 		<div className="w-full" style={{height: "calc(100vh - 60px - 10px)"}}>
-			<div className="container mx-auto h-[100%] pb-[10px]">
+			<div className="container mx-auto h-[100%] pb-[10px] box-border px-4">
 				<div className="flex flex-col items-start text-dark bg-white broder border-dark-50 shadow-md rounded-md h-[100%]">
 					<h1 className="font-poppins font-semibold text-xl py-4 px-5">
 						My Board
