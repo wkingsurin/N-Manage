@@ -30,7 +30,7 @@ export default function SignIn() {
 		} else {
 			console.log(`[STATUS]:`, result.status);
 			console.log(`Success sign in`);
-			redirect("/protectedComponent");
+			redirect("/dashboard");
 		}
 	};
 
