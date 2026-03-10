@@ -19,9 +19,9 @@ export default async function Dashboard() {
 					</h1>
 					<hr className="w-full h-1 bg-dark-50" />
 					<div className="flex w-full p-3 gap-4 items-start">
-						<Card title="Today" />
-						<Card title="This week" />
-						<Card title="This month" />
+						<Card title="Today" period="today" />
+						<Card title="This week" period="week" />
+						<Card title="This month" period="month" />
 						{/* <div className="flex flex-col p-3 bg-pale-blue rounded-md border border-dark-50 gap-3 w-[33.333%]">
 							<span className="font-poppins font-semibold text-base">
 								Today
