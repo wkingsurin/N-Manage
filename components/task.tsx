@@ -2,20 +2,23 @@
 
 import { Pencil, Check } from "lucide-react";
 import { Textarea } from "./ui/textarea";
+import { useTasks } from "./hooks/useTasks";
 
 interface ITaskProps {
-	data: { id: string; text: string; edit: boolean; status: string };
-	onEdit: (text: string) => void;
-	onClick: (id: string) => void;
-	onComplete: (id: string) => void;
+	data: {
+		id: string;
+		text: string;
+		edit: boolean;
+		status: string;
+		period: string;
+	};
 }
 
 export default function Task({
 	data,
-	onClick,
-	onEdit,
-	onComplete,
 }: ITaskProps) {
+	const {onClickEditTask, onChangeTextTask, onComplete} = useTasks()
+
 	return (
 		<li
 			id={data.id}
@@ -28,18 +31,24 @@ export default function Task({
 					value={data.text}
 					className="outline-none resize-none field-sizing-content focus-visible:ring-0 focus-visible:ring-transparent border-none shadow-none p-0 min-h-auto"
 					contentEditable={data.edit}
-					onChange={(e) => onEdit(e.target.value)}
+					onChange={(e) => onChangeTextTask(e.target.value)}
 					disabled={data.status === "completed"}
 				/>
 				<span
-					className={`flex items-center justify-center opacity-0 ${data.status === 'completed' ? 'hover:opacity-0' : 'hover:opacity-100 group-hover:opacity-50'}`}
-					onClick={() => onClick(data.id)}
+					className={`flex items-center justify-center opacity-0 ${
+						data.status === "completed"
+							? "hover:opacity-0"
+							: "hover:opacity-100 group-hover:opacity-50"
+					}`}
+					onClick={() => onClickEditTask(data.id)}
 				>
 					<Pencil size={16} className="stroke-dark" />
 				</span>
 			</div>
 			<span
-				className={`opacity-${data.status === 'completed' ? '100' : '0'} group-hover:opacity-100`}
+				className={`opacity-${
+					data.status === "completed" ? "100" : "0"
+				} group-hover:opacity-100`}
 				onClick={() => onComplete(data.id)}
 			>
 				<Check size={16} className="stroke-completed" />
