@@ -12,12 +12,11 @@ interface ITaskProps {
 		status: string;
 		period: string;
 	};
+	onClickEdit: (id: string) => void;
 }
 
-export default function Task({
-	data,
-}: ITaskProps) {
-	const {onClickEditTask, onChangeTextTask, onComplete} = useTasks()
+export default function Task({ data, onClickEdit }: ITaskProps) {
+	const { onChangeTextTask, onComplete } = useTasks();
 
 	return (
 		<li
@@ -40,7 +39,7 @@ export default function Task({
 							? "hover:opacity-0"
 							: "hover:opacity-100 group-hover:opacity-50"
 					}`}
-					onClick={() => onClickEditTask(data.id)}
+					onClick={() => onClickEdit(data.id)}
 				>
 					<Pencil size={16} className="stroke-dark" />
 				</span>

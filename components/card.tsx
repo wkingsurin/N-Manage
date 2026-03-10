@@ -21,7 +21,12 @@ const initialNewTask = {
 
 export default function Card({ title, period }: ICardProps) {
 	const [newTask, setNewTask] = useState(initialNewTask);
-	const { tasks, addNewTask } = useTasks();
+	const { tasks, onClickEditTask, addNewTask } = useTasks();
+
+	const handleEditTask = (id: string) => {
+		resetNewTask()
+		onClickEditTask(id)
+	}
 
 	// NewTask handlers
 	const onCreateNewTask = () => {
@@ -61,7 +66,7 @@ export default function Card({ title, period }: ICardProps) {
 
 	const getTasks = (period: string) => {
 		const filtered = tasks.filter((task) => task.period === period);
-		return filtered.map((task) => <Task key={task.id} data={task} />);
+		return filtered.map((task) => <Task key={task.id} data={task} onClickEdit={handleEditTask} />);
 	};
 
 	return (
