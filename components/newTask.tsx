@@ -1,13 +1,7 @@
 import AddTask from "./addTask";
 import CreateTask from "./createTask";
 
-interface INewTaskProps {
-	status: string;
-	onCreateNewTask: () => void;
-	onChangeText: (text: string) => void;
-	onAddNewTask: () => void;
-	onCloseNewTask: () => void;
-}
+import { INewTaskProps } from "@/app/types/new-task-props";
 
 export default function NewTask({
 	status,

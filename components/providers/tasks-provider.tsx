@@ -1,19 +1,10 @@
 "use client";
 
 import { TasksContext } from "@/components/contexts/tasksContext";
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 
-interface ITask {
-	id: string;
-	text: string;
-	edit: boolean;
-	status: string;
-  period: string
-}
-
-interface ITasksProviderProps {
-	children: ReactNode;
-}
+import { ITask } from "@/app/types/task";
+import { ITasksProviderProps } from "@/app/types/tasks-provider-props";
 
 export function TasksProvider({ children }: ITasksProviderProps) {
 	const [tasks, setTasks] = useState([
@@ -22,13 +13,12 @@ export function TasksProvider({ children }: ITasksProviderProps) {
 			text: "Create Task component",
 			edit: false,
 			status: "in-progress",
-      period: 'today'
+			period: "today",
 		},
 	]);
 
 	const onClickEditTask = (id: string) => {
-		// resetNewTask()
-    console.log(`edit`)
+		console.log(`edit`);
 		setTasks((prevTasks) => {
 			const newTasks = prevTasks.map((task) =>
 				task.id === id ? { ...task, edit: !task.edit } : task

@@ -6,10 +6,7 @@ import { useState } from "react";
 
 import { useTasks } from "./hooks/useTasks";
 
-interface ICardProps {
-	title: string;
-	period: string;
-}
+import { ICardProps } from "@/app/types/card";
 
 const initialNewTask = {
 	id: "",
@@ -24,11 +21,10 @@ export default function Card({ title, period }: ICardProps) {
 	const { tasks, onClickEditTask, addNewTask } = useTasks();
 
 	const handleEditTask = (id: string) => {
-		resetNewTask()
-		onClickEditTask(id)
-	}
+		resetNewTask();
+		onClickEditTask(id);
+	};
 
-	// NewTask handlers
 	const onCreateNewTask = () => {
 		setNewTask(() => ({
 			...newTask,
@@ -66,7 +62,9 @@ export default function Card({ title, period }: ICardProps) {
 
 	const getTasks = (period: string) => {
 		const filtered = tasks.filter((task) => task.period === period);
-		return filtered.map((task) => <Task key={task.id} data={task} onClickEdit={handleEditTask} />);
+		return filtered.map((task) => (
+			<Task key={task.id} data={task} onClickEdit={handleEditTask} />
+		));
 	};
 
 	return (

@@ -4,7 +4,6 @@ import { CalendarClock, User } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import SignOutButton from "./shared/signOutButton";
-import { auth } from "@/auth";
 import { useSession } from "next-auth/react";
 
 export default function Header() {

@@ -4,16 +4,7 @@ import { Pencil, Check } from "lucide-react";
 import { Textarea } from "./ui/textarea";
 import { useTasks } from "./hooks/useTasks";
 
-interface ITaskProps {
-	data: {
-		id: string;
-		text: string;
-		edit: boolean;
-		status: string;
-		period: string;
-	};
-	onClickEdit: (id: string) => void;
-}
+import { ITaskProps } from "@/app/types/task-props";
 
 export default function Task({ data, onClickEdit }: ITaskProps) {
 	const { onChangeTextTask, onComplete } = useTasks();
