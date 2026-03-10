@@ -1,65 +1,81 @@
 "use client";
 
 import Task from "./task";
-import AddTask from "./addTask";
+import NewTask from "./newTask";
 import { useState } from "react";
+
+import { useTasks } from "./hooks/useTasks";
 
 interface ICardProps {
 	title: string;
+	period: string;
 }
 
-export default function Card({ title }: ICardProps) {
-	const [tasks, setTasks] = useState([
-		{
-			id: "1",
-			text: "Create Task component",
-			edit: false,
-			status: "in-progress",
-		},
-	]);
+const initialNewTask = {
+	id: "",
+	text: "",
+	edit: false,
+	status: "add",
+	period: "",
+};
 
-	const onClick = (id: string) => {
-		setTasks((prevTasks) => {
-			const newTasks = prevTasks.map((task) =>
-				task.id === id ? { ...task, edit: !task.edit } : task
-			);
-			return newTasks;
-		});
-	};
-	const onEdit = (text: string) => {
-		setTasks((prevTasks) => {
-			const newTasks = prevTasks.map((task) =>
-				task.edit ? { ...task, text: text } : task
-			);
-			return newTasks;
-		});
-	};
-	const onComplete = (id: string) => {
-		setTasks((prevTasks) => {
-			const newTasks = prevTasks.map((task) =>
-				task.id === id ? { ...task, status: "completed", edit: false } : task
-			);
-			return newTasks;
-		});
+export default function Card({ title, period }: ICardProps) {
+	const [newTask, setNewTask] = useState(initialNewTask);
+	const { tasks, addNewTask } = useTasks();
+
+	// NewTask handlers
+	const onCreateNewTask = () => {
+		setNewTask(() => ({
+			...newTask,
+			status: "creating",
+			id: `${Date.now()}`,
+			period,
+		}));
 	};
 
-	const getTasks = () =>
-		tasks.map((task) => (
-			<Task
-				key={task.id}
-				data={task}
-				onClick={onClick}
-				onEdit={onEdit}
-				onComplete={onComplete}
-			/>
-		));
+	const onChangeTextNewTask = (text: string) => {
+		console.log("typing...");
+		setNewTask(() => ({ ...newTask, text: text })); // temp id filed
+	};
+
+	const onAddNewTask = () => {
+		if (!newTask.id || !newTask.text) {
+			resetNewTask();
+			return null;
+		}
+
+		addNewTask(newTask);
+		console.log(`add new task`);
+		console.log(`[newTask]:`, newTask);
+		console.log(`[tasks]:`, tasks);
+		resetNewTask();
+	};
+
+	const onCloseNewTask = () => {
+		resetNewTask();
+	};
+
+	function resetNewTask() {
+		setNewTask(initialNewTask);
+	}
+
+	const getTasks = (period: string) => {
+		const filtered = tasks.filter((task) => task.period === period);
+		return filtered.map((task) => <Task key={task.id} data={task} />);
+	};
 
 	return (
 		<div className="flex flex-col p-3 bg-pale-blue rounded-md border border-dark-50 gap-3 w-[33.333%]">
 			<span className="font-poppins font-semibold text-base">{title}</span>
 			<ul className="flex flex-col gap-2">
-				{getTasks()}
-				<AddTask />
+				{getTasks(period)}
+				<NewTask
+					status={newTask.status}
+					onCreateNewTask={onCreateNewTask}
+					onChangeText={onChangeTextNewTask}
+					onAddNewTask={onAddNewTask}
+					onCloseNewTask={onCloseNewTask}
+				/>
 			</ul>
 		</div>
 	);
