@@ -3,6 +3,7 @@ import { Poppins, Inter } from "next/font/google";
 import "./globals.css";
 
 import AuthProvider from "@/components/providers/session-provider";
+import { TasksProvider } from "@/components/providers/tasks-provider";
 
 import Header from "@/components/header";
 
@@ -32,7 +33,7 @@ export default async function RootLayout({
 			<body className={`${poppins.variable} ${inter.variable} antialiased`}>
 				<AuthProvider>
 					<Header />
-					{children}
+					<TasksProvider>{children}</TasksProvider>
 				</AuthProvider>
 			</body>
 		</html>
