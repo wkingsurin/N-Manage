@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useTasks } from "./hooks/useTasks";
 
 import { ICardProps } from "@/app/types/card";
+import { useNewTask } from "./hooks/useNewTask";
 
 const initialNewTask = {
 	id: "",
@@ -19,6 +20,8 @@ const initialNewTask = {
 export default function Card({ title, period }: ICardProps) {
 	const [newTask, setNewTask] = useState(initialNewTask);
 	const { tasks, onClickEditTask, addNewTask } = useTasks();
+	const { creatingTask, setCreatingTask } = useNewTask();
+
 
 	const handleEditTask = (id: string) => {
 		resetNewTask();
@@ -26,6 +29,7 @@ export default function Card({ title, period }: ICardProps) {
 	};
 
 	const onCreateNewTask = () => {
+		setCreatingTask(period)
 		setNewTask(() => ({
 			...newTask,
 			status: "creating",
@@ -54,6 +58,7 @@ export default function Card({ title, period }: ICardProps) {
 
 	const onCloseNewTask = () => {
 		resetNewTask();
+		setCreatingTask(null)
 	};
 
 	function resetNewTask() {
@@ -76,7 +81,7 @@ export default function Card({ title, period }: ICardProps) {
 				<ul className="flex flex-col gap-2">
 					{getTasks(period)}
 					<NewTask
-						status={newTask.status}
+						isCreating={creatingTask === period}
 						onCreateNewTask={onCreateNewTask}
 						onChangeText={onChangeTextNewTask}
 						onAddNewTask={onAddNewTask}

@@ -4,7 +4,7 @@ import CreateTask from "./createTask";
 import { INewTaskProps } from "@/app/types/new-task-props";
 
 export default function NewTask({
-	status,
+	isCreating,
 	onChangeText,
 	onCreateNewTask,
 	onAddNewTask,
@@ -12,7 +12,7 @@ export default function NewTask({
 }: INewTaskProps) {
 	return (
 		<>
-			{status === "add" ? (
+			{!isCreating ? (
 				<AddTask onClick={onCreateNewTask} />
 			) : (
 				<CreateTask
