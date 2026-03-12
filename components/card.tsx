@@ -2,7 +2,7 @@
 
 import Task from "./task";
 import NewTask from "./newTask";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 import { useTasks } from "./hooks/useTasks";
 
@@ -22,6 +22,8 @@ export default function Card({ title, period }: ICardProps) {
 	const { tasks, onClickEditTask, addNewTask } = useTasks();
 	const { creatingTask, setCreatingTask } = useNewTask();
 
+	const isFirstRender = useRef(true);
+	const anchorRef = useRef<HTMLDivElement | null>(null);
 
 	const handleEditTask = (id: string) => {
 		resetNewTask();
@@ -65,12 +67,29 @@ export default function Card({ title, period }: ICardProps) {
 		setNewTask(initialNewTask);
 	}
 
+	function scrollToBottom() {
+		const anchor = anchorRef.current;
+
+		if (!anchor) return;
+
+		anchor.scrollIntoView({ behavior: "auto" });
+	}
+
 	const getTasks = (period: string) => {
 		const filtered = tasks.filter((task) => task.period === period);
 		return filtered.map((task) => (
 			<Task key={task.id} data={task} onClickEdit={handleEditTask} />
 		));
 	};
+
+	useEffect(() => {
+		if (isFirstRender.current) {
+			isFirstRender.current = false;
+			return;
+		}
+
+		scrollToBottom();
+	}, [newTask]);
 
 	return (
 		<div className="flex flex-col bg-pale-blue rounded-md border border-dark-50 w-[33.333%] max-h-[100%]">
@@ -88,6 +107,7 @@ export default function Card({ title, period }: ICardProps) {
 						onCloseNewTask={onCloseNewTask}
 					/>
 				</ul>
+				<div ref={anchorRef}></div>
 			</div>
 		</div>
 	);
