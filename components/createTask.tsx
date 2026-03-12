@@ -17,10 +17,11 @@ export default function CreateTask({
 				name="textarea"
 				id="textarea"
 				placeholder="Typing your task..."
-				className="w-full bg-white hover:shadow-md rounded-md py-[10px] px-3 outline-none resize-none field-sizing-content min-h-[57px] max-h-[92]"
+				className="w-full bg-white focus:shadow-md rounded-md py-[10px] px-3 outline-none resize-none field-sizing-content min-h-[57px] max-h-[92]  focus-visible:ring-0 focus-visible:ring-transparent border-none"
 				onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
 					onChange(e.target.value)
 				}
+				autoFocus
 			/>
 			<div className="flex gap-2">
 				<Button className="border-md py-[10px] px-4" onClick={onAddNewTask}>
