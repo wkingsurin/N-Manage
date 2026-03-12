@@ -12,7 +12,7 @@ export default function Task({ data, onClickEdit }: ITaskProps) {
 	return (
 		<li
 			id={data.id}
-			className="group flex gap-[10px] box-border items-center justify-between bg-white hover:shadow-md rounded-md py-[10px] px-3 text-dark max-h-10"
+			className="group flex gap-[10px] box-border items-center justify-between bg-white hover:shadow-md rounded-md py-[10px] px-3 py-3 text-dark max-h-10"
 		>
 			<div className="flex gap-1 items-center">
 				<Textarea

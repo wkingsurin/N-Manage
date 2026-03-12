@@ -68,18 +68,22 @@ export default function Card({ title, period }: ICardProps) {
 	};
 
 	return (
-		<div className="flex flex-col p-3 bg-pale-blue rounded-md border border-dark-50 gap-3 w-[33.333%]">
-			<span className="font-poppins font-semibold text-base">{title}</span>
-			<ul className="flex flex-col gap-2">
-				{getTasks(period)}
-				<NewTask
-					status={newTask.status}
-					onCreateNewTask={onCreateNewTask}
-					onChangeText={onChangeTextNewTask}
-					onAddNewTask={onAddNewTask}
-					onCloseNewTask={onCloseNewTask}
-				/>
-			</ul>
+		<div className="flex flex-col bg-pale-blue rounded-md border border-dark-50 w-[33.333%] max-h-[100%]">
+			<span className="font-poppins font-semibold text-base p-3 bg-dark-100">
+				{title}
+			</span>
+			<div className="overflow-y-auto p-3">
+				<ul className="flex flex-col gap-2">
+					{getTasks(period)}
+					<NewTask
+						status={newTask.status}
+						onCreateNewTask={onCreateNewTask}
+						onChangeText={onChangeTextNewTask}
+						onAddNewTask={onAddNewTask}
+						onCloseNewTask={onCloseNewTask}
+					/>
+				</ul>
+			</div>
 		</div>
 	);
 }

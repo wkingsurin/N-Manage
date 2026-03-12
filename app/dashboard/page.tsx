@@ -18,7 +18,7 @@ export default async function Dashboard() {
 						My Board
 					</h1>
 					<hr className="w-full h-1 bg-dark-50" />
-					<div className="flex w-full p-3 gap-4 items-start">
+					<div className="flex w-full p-3 gap-4 items-start overflow-hidden">
 						<Card title="Today" period="today" />
 						<Card title="This week" period="week" />
 						<Card title="This month" period="month" />
