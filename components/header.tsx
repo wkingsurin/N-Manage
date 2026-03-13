@@ -1,13 +1,11 @@
-'use client'
-
 import { CalendarClock, User } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import SignOutButton from "./shared/signOutButton";
-import { useSession } from "next-auth/react";
+import { auth } from "@/auth";
 
-export default function Header() {
-	const {data: session} = useSession()
+export default async function Header() {
+	const session = await auth()
 
 	const signBlock = !session ? (
 		<>

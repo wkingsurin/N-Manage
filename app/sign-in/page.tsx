@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { signIn } from "next-auth/react";
 import { redirect } from "next/navigation";
@@ -15,6 +16,7 @@ export default function SignIn() {
 		email: "",
 		password: "",
 	});
+	const router = useRouter();
 
 	const onSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -30,6 +32,7 @@ export default function SignIn() {
 		} else {
 			console.log(`[STATUS]:`, result.status);
 			console.log(`Success sign in`);
+			router.refresh();
 			redirect("/dashboard");
 		}
 	};
