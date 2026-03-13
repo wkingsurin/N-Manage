@@ -7,8 +7,8 @@ import { useRef } from "react";
 
 import { ITaskProps } from "@/app/types/task-props";
 
-export default function Task({ data, onClickEdit }: ITaskProps) {
-	const { onChangeTextTask, onComplete } = useTasks();
+export default function Task({ data, onClickEdit, onComplete }: ITaskProps) {
+	const { onChangeTextTask } = useTasks();
 	const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
 	const onFocus = () => {

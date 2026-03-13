@@ -19,52 +19,57 @@ const initialNewTask = {
 
 export default function Card({ title, period }: ICardProps) {
 	const [newTask, setNewTask] = useState(initialNewTask);
-	const { tasks, onClickEditTask, addNewTask } = useTasks();
+	const { tasks, onClickEditTask, addNewTask, onComplete, closeTasksEditing } =
+		useTasks();
 	const { creatingTask, setCreatingTask } = useNewTask();
 
 	const isFirstRender = useRef(true);
 	const anchorRef = useRef<HTMLDivElement | null>(null);
 
 	const handleEditTask = (id: string) => {
-		resetNewTask();
+		closeTasksEditing(id);
+		onCloseNewTask();
 		onClickEditTask(id);
 	};
 
+	const handleCompleteTask = (id: string) => {
+		closeTasksEditing();
+		onCloseNewTask();
+		onComplete(id);
+	};
+
 	const onCreateNewTask = () => {
-		setCreatingTask(period)
+		closeTasksEditing();
+		setCreatingTask(period);
 		setNewTask(() => ({
 			...newTask,
-			status: "creating",
+			status: "in-progress",
 			id: `${Date.now()}`,
 			period,
 		}));
 	};
 
 	const onChangeTextNewTask = (text: string) => {
-		console.log("typing...");
-		setNewTask(() => ({ ...newTask, text: text })); // temp id filed
+		setNewTask(() => ({ ...newTask, text: text }));
 	};
 
 	const onAddNewTask = () => {
 		if (!newTask.id || !newTask.text) {
-			resetNewTask();
+			onCloseNewTask();
 			return null;
 		}
 
 		addNewTask(newTask);
-		console.log(`add new task`);
-		console.log(`[newTask]:`, newTask);
-		console.log(`[tasks]:`, tasks);
-		resetNewTask();
+		onCloseNewTask();
 	};
 
 	const onCloseNewTask = () => {
 		resetNewTask();
-		setCreatingTask(null)
+		setCreatingTask(null);
 	};
 
 	function resetNewTask() {
-		setNewTask(initialNewTask);
+		setNewTask(() => initialNewTask);
 	}
 
 	function scrollToBottom() {
@@ -75,12 +80,21 @@ export default function Card({ title, period }: ICardProps) {
 		anchor.scrollIntoView({ behavior: "auto" });
 	}
 
-	const getTasks = (period: string) => {
-		const filtered = tasks.filter((task) => task.period === period);
+	function getFilteredTasks(period: string) {
+		return tasks.filter((task) => task.period === period);
+	}
+
+	function getTasks(period: string) {
+		const filtered = getFilteredTasks(period);
 		return filtered.map((task) => (
-			<Task key={task.id} data={task} onClickEdit={handleEditTask} />
+			<Task
+				key={task.id}
+				data={task}
+				onClickEdit={handleEditTask}
+				onComplete={handleCompleteTask}
+			/>
 		));
-	};
+	}
 
 	useEffect(() => {
 		if (isFirstRender.current) {

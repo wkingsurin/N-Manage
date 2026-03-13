@@ -6,4 +6,5 @@ export interface TasksContextType {
 	onChangeTextTask: (text: string) => void;
 	onComplete: (id: string) => void;
 	addNewTask: (newTask: ITask) => void;
+	closeTasksEditing: (id?: string) => void;
 }

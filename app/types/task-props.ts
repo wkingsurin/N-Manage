@@ -7,4 +7,5 @@ export interface ITaskProps {
 		period: string;
 	};
 	onClickEdit: (id: string) => void;
+	onComplete: (id: string) => void;
 }

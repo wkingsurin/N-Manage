@@ -44,10 +44,19 @@ export function TasksProvider({ children }: ITasksProviderProps) {
 	};
 
 	function addNewTask(newTask: ITask) {
-		setTasks(() => {
-			const tasksCopy = [...tasks];
+		setTasks((prevTasks) => {
+			const tasksCopy = [...prevTasks];
 			tasksCopy.push(newTask);
 			return tasksCopy;
+		});
+	}
+
+	function closeTasksEditing(id?: string) {
+		setTasks((prevTasks) => {
+			const tasksCopy = [...prevTasks];
+			return tasksCopy.map((task) =>
+				task.edit === true && task.id !== id ? { ...task, edit: false } : task
+			);
 		});
 	}
 
@@ -57,6 +66,7 @@ export function TasksProvider({ children }: ITasksProviderProps) {
 		onChangeTextTask,
 		onComplete,
 		addNewTask,
+		closeTasksEditing,
 	};
 
 	return (
