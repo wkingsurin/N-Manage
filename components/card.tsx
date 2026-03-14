@@ -8,13 +8,14 @@ import { useTasks } from "./hooks/useTasks";
 
 import { ICardProps } from "@/app/types/card";
 import { useNewTask } from "./hooks/useNewTask";
+import { ITask } from "@/app/types/task";
 
-const initialNewTask = {
-	id: "",
-	text: "",
+const initialNewTask: ITask = {
+	id: undefined,
+	text: undefined,
 	edit: false,
 	status: "add",
-	period: "",
+	period: undefined,
 };
 
 export default function Card({ title, period }: ICardProps) {
@@ -26,13 +27,13 @@ export default function Card({ title, period }: ICardProps) {
 	const isFirstRender = useRef(true);
 	const anchorRef = useRef<HTMLDivElement | null>(null);
 
-	const handleEditTask = (id: string) => {
+	const handleEditTask = (id: string | undefined) => {
 		closeTasksEditing(id);
 		onCloseNewTask();
 		onClickEditTask(id);
 	};
 
-	const handleCompleteTask = (id: string) => {
+	const handleCompleteTask = (id: string | undefined) => {
 		closeTasksEditing();
 		onCloseNewTask();
 		onComplete(id);
@@ -65,7 +66,7 @@ export default function Card({ title, period }: ICardProps) {
 
 	const onCloseNewTask = () => {
 		resetNewTask();
-		setCreatingTask(null);
+		setCreatingTask(undefined);
 	};
 
 	function resetNewTask() {
@@ -80,11 +81,11 @@ export default function Card({ title, period }: ICardProps) {
 		anchor.scrollIntoView({ behavior: "auto" });
 	}
 
-	function getFilteredTasks(period: string) {
+	function getFilteredTasks(period: string | undefined) {
 		return tasks.filter((task) => task.period === period);
 	}
 
-	function getTasks(period: string) {
+	function getTasks(period: string | undefined) {
 		const filtered = getFilteredTasks(period);
 		return filtered.map((task) => (
 			<Task

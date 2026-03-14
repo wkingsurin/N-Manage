@@ -1,4 +1,4 @@
 export interface ICardProps {
 	title: string;
-	period: string;
+	period: 'today' | 'week' | 'month' | undefined;
 }

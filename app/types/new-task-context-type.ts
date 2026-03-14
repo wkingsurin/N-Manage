@@ -1,4 +1,4 @@
 export interface NewTaskContextType {
-	creatingTask: string | null;
-	setCreatingTask: (id: string | null) => void;
+	creatingTask: string | undefined;
+	setCreatingTask: (id: string | undefined) => void;
 }

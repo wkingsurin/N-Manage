@@ -1,11 +1,7 @@
+import { ITask } from "./task";
+
 export interface ITaskProps {
-	data: {
-		id: string;
-		text: string;
-		edit: boolean;
-		status: string;
-		period: string;
-	};
-	onClickEdit: (id: string) => void;
-	onComplete: (id: string) => void;
+	data: ITask;
+	onClickEdit: (id: string | undefined) => void;
+	onComplete: (id: string | undefined) => void;
 }

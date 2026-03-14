@@ -7,7 +7,7 @@ import { ITask } from "@/app/types/task";
 import { ITasksProviderProps } from "@/app/types/tasks-provider-props";
 
 export function TasksProvider({ children }: ITasksProviderProps) {
-	const [tasks, setTasks] = useState([
+	const [tasks, setTasks] = useState<ITask[]>([
 		{
 			id: "1",
 			text: "Create Task component",
@@ -17,7 +17,7 @@ export function TasksProvider({ children }: ITasksProviderProps) {
 		},
 	]);
 
-	const onClickEditTask = (id: string) => {
+	const onClickEditTask = (id: string | undefined) => {
 		console.log(`edit`);
 		setTasks((prevTasks) => {
 			const newTasks = prevTasks.map((task) =>
@@ -26,7 +26,7 @@ export function TasksProvider({ children }: ITasksProviderProps) {
 			return newTasks;
 		});
 	};
-	const onChangeTextTask = (text: string) => {
+	const onChangeTextTask = (text: string | undefined) => {
 		setTasks((prevTasks) => {
 			const newTasks = prevTasks.map((task) =>
 				task.edit ? { ...task, text: text } : task
@@ -34,7 +34,7 @@ export function TasksProvider({ children }: ITasksProviderProps) {
 			return newTasks;
 		});
 	};
-	const onComplete = (id: string) => {
+	const onComplete = (id: string | undefined) => {
 		setTasks((prevTasks) => {
 			const newTasks = prevTasks.map((task) =>
 				task.id === id ? { ...task, status: "completed", edit: false } : task
@@ -51,7 +51,7 @@ export function TasksProvider({ children }: ITasksProviderProps) {
 		});
 	}
 
-	function closeTasksEditing(id?: string) {
+	function closeTasksEditing(id?: string | undefined) {
 		setTasks((prevTasks) => {
 			const tasksCopy = [...prevTasks];
 			return tasksCopy.map((task) =>
