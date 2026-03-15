@@ -18,7 +18,7 @@ export function mapTaskFromDB(task: Task): ITask {
 	return {
 		id: task.id,
 		text: task.title,
-		edit: task.edit,
+		edit: false,
 		status: task.status,
 		period: getPeriodFromDate(task.dueDate),
 	};
@@ -29,5 +29,12 @@ export function mapTaskSnippetToCreateTask(snippet: ITaskSnippet) {
 		text: snippet.text,
 		status: snippet.status,
 		period: snippet.period,
+	};
+}
+
+export function mapSaveTask(task: ITask): UpdateTaskTextarea {
+	return {
+		id: task.id,
+		title: task.text,
 	};
 }
