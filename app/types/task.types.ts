@@ -5,3 +5,8 @@ export interface ITask {
 	status: string;
 	period: "today" | "week" | "month";
 }
+
+export interface UpdateTaskTextarea {
+	id: string;
+	title: string;
+}
