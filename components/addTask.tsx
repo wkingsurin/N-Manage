@@ -2,7 +2,7 @@
 
 import { Plus } from "lucide-react";
 
-import { IAddTaskProps } from "@/app/types/add-task-props";
+import { IAddTaskProps } from "@/app/types/add-task-props.types";
 
 export default function AddTask({ onClick }: IAddTaskProps) {
 	return (

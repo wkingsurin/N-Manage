@@ -4,7 +4,7 @@ import { redirect, useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { signOut } from "next-auth/react";
 
-import { ISignOutProps } from "@/app/types/sign-out-props";
+import { ISignOutProps } from "@/app/types/sign-out-props.types";
 
 export default function SignOutButton({ children, className }: ISignOutProps) {
 	const router = useRouter();

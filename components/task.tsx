@@ -5,7 +5,7 @@ import { Textarea } from "./ui/textarea";
 import { useTasks } from "./hooks/useTasks";
 import { useRef } from "react";
 
-import { ITaskProps } from "@/app/types/task-props";
+import { ITaskProps } from "@/app/types/task-props.types";
 
 export default function Task({ data, onClickEdit, onComplete }: ITaskProps) {
 	const { onChangeTextTask } = useTasks();
