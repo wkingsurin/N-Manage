@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 
 import { ICreateTaskProps } from "@/app/types/create-task-props.types";
-import { clearTasks, createTask } from "@/app/actions/task.actions";
+import { createTask } from "@/app/actions/task.actions";
 import { useTaskSnippet } from "./hooks/useTaskSnippet";
 import { mapTaskSnippetToCreateTask } from "@/app/mappers/task.mapper";
 
@@ -30,9 +30,6 @@ export default function CreateTask({
 			console.log(result.error);
 		} else {
 			onAddNewTask();
-
-			// dev clean up
-			// await clearTasks();
 		}
 	};
 
@@ -54,10 +51,7 @@ export default function CreateTask({
 					autoFocus
 				/>
 				<div className="flex gap-2">
-					<Button
-						type="submit"
-						className="border-md py-[10px] px-4"
-					>
+					<Button type="submit" className="border-md py-[10px] px-4">
 						Create
 					</Button>
 					<Button

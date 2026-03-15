@@ -5,7 +5,6 @@ import { INewTaskProps } from "@/app/types/new-task-props.types";
 
 export default function NewTask({
 	isCreating,
-	onChangeText,
 	onCreateNewTask,
 	onAddNewTask,
 	onCloseNewTask,
@@ -16,7 +15,6 @@ export default function NewTask({
 				<AddTask onClick={onCreateNewTask} />
 			) : (
 				<CreateTask
-					onChange={onChangeText}
 					onAddNewTask={onAddNewTask}
 					onCloseNewTask={onCloseNewTask}
 				/>
