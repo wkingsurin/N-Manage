@@ -1,7 +1,7 @@
 export interface ITask {
-	id: string | undefined;
-	text: string | undefined;
+	id: string;
+	text: string;
 	edit: boolean;
 	status: string;
-	period: 'today' | 'week' | 'month' | undefined;
+	period: "today" | "week" | "month";
 }

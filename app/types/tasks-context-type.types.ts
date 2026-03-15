@@ -2,9 +2,9 @@ import { ITask } from "./task.types";
 
 export interface TasksContextType {
 	tasks: ITask[];
-	onClickEditTask: (id: string | undefined) => void;
-	onChangeTextTask: (text: string | undefined) => void;
-	onComplete: (id: string | undefined) => void;
+	onClickEditTask: (id: string) => void;
+	onChangeTextTask: (text: string) => void;
+	onComplete: (id: string) => void;
 	addNewTask: (newTask: ITask) => void;
-	closeTasksEditing: (id?: string | undefined) => void;
+	closeTasksEditing: (id?: string) => void;
 }

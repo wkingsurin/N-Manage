@@ -6,7 +6,7 @@ import { useState, useRef, useEffect } from "react";
 
 import { useTasks } from "./hooks/useTasks";
 
-import { ICardProps } from "@/app/types/card";
+import { ICardProps } from "@/app/types/card.types";
 import { useNewTask } from "./hooks/useNewTask";
 import { ITask } from "@/app/types/task";
 

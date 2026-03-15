@@ -6,6 +6,7 @@ import { useTasks } from "./hooks/useTasks";
 import { useRef } from "react";
 
 import { ITaskProps } from "@/app/types/task-props.types";
+import { ITask } from "@/app/types/task.types";
 
 export default function Task({ data, onClickEdit, onComplete }: ITaskProps) {
 	const { onChangeTextTask } = useTasks();

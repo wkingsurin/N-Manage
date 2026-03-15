@@ -1,6 +1,6 @@
 import { Task } from "@/lib/generated/prisma/client";
 import { CreateTaskDTO } from "../schemas/task.schema";
-import { ITask } from "../types/task.types";
+import { ITask, UpdateTaskTextarea } from "../types/task.types";
 import { getDueDate, getPeriodFromDate } from "../utils/date";
 import { ITaskSnippet } from "../types/task-snippet.types";
 
