@@ -45,6 +45,18 @@ export async function getTasks() {
 	return tasks;
 }
 
+export async function saveTask(data: {id: string, title: string}) {
+	await prisma.task.update({
+		where: {
+			id: data.id,
+		},
+		data: {
+			title: data.title,
+		},
+	});
+
+}
+
 // dev
 export async function clearTasks() {
 	await prisma.task.deleteMany();
