@@ -34,7 +34,6 @@ model Task {
 
   title   String
   status  String
-  edit    Boolean  @default(false)
   dueDate DateTime @map("due_date")
 
   createdAt DateTime @default(now()) @map("created_at")
