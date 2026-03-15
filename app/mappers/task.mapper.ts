@@ -8,7 +8,6 @@ export function mapCreateTask(dto: CreateTaskDTO, userId: string) {
 	return {
 		title: dto.text,
 		status: dto.status,
-		edit: false,
 		dueDate: getDueDate(dto.period),
 		userId,
 	};
