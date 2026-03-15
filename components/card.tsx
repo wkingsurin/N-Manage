@@ -2,76 +2,42 @@
 
 import Task from "./task";
 import NewTask from "./newTask";
-import { useState, useRef, useEffect } from "react";
-
-import { useTasks } from "./hooks/useTasks";
+import { useRef, useEffect } from "react";
 
 import { ICardProps } from "@/app/types/card.types";
 import { useNewTask } from "./hooks/useNewTask";
-import { ITask } from "@/app/types/task";
+import { useTaskSnippet } from "./hooks/useTaskSnippet";
+import { clearTasks } from "@/app/actions/task.actions";
 
-const initialNewTask: ITask = {
-	id: undefined,
-	text: undefined,
-	edit: false,
-	status: "add",
-	period: undefined,
-};
-
-export default function Card({ title, period }: ICardProps) {
-	const [newTask, setNewTask] = useState(initialNewTask);
-	const { tasks, onClickEditTask, addNewTask, onComplete, closeTasksEditing } =
-		useTasks();
+export default function Card({ title, period, tasksFromDB }: ICardProps) {
 	const { creatingTask, setCreatingTask } = useNewTask();
+	const { taskSnippet, setTaskSnippetPeriod, resetTaskSnippet } =
+		useTaskSnippet();
 
 	const isFirstRender = useRef(true);
 	const anchorRef = useRef<HTMLDivElement | null>(null);
 
-	const handleEditTask = (id: string | undefined) => {
-		closeTasksEditing(id);
+	const handleCompleteTask = (id: string) => {
 		onCloseNewTask();
-		onClickEditTask(id);
 	};
 
-	const handleCompleteTask = (id: string | undefined) => {
-		closeTasksEditing();
-		onCloseNewTask();
-		onComplete(id);
-	};
+	const onCreateNewTask = async () => {
+		// dev clean up
+		// await clearTasks();
 
-	const onCreateNewTask = () => {
-		closeTasksEditing();
+		resetTaskSnippet();
+		setTaskSnippetPeriod(period);
+
 		setCreatingTask(period);
-		setNewTask(() => ({
-			...newTask,
-			status: "in-progress",
-			id: `${Date.now()}`,
-			period,
-		}));
-	};
-
-	const onChangeTextNewTask = (text: string) => {
-		setNewTask(() => ({ ...newTask, text: text }));
 	};
 
 	const onAddNewTask = () => {
-		if (!newTask.id || !newTask.text) {
-			onCloseNewTask();
-			return null;
-		}
-
-		addNewTask(newTask);
 		onCloseNewTask();
 	};
 
 	const onCloseNewTask = () => {
-		resetNewTask();
-		setCreatingTask(undefined);
+		setCreatingTask(null);
 	};
-
-	function resetNewTask() {
-		setNewTask(() => initialNewTask);
-	}
 
 	function scrollToBottom() {
 		const anchor = anchorRef.current;
@@ -82,7 +48,7 @@ export default function Card({ title, period }: ICardProps) {
 	}
 
 	function getFilteredTasks(period: string | undefined) {
-		return tasks.filter((task) => task.period === period);
+		return tasksFromDB.filter((task) => task.period === period);
 	}
 
 	function getTasks(period: string | undefined) {
@@ -91,7 +57,6 @@ export default function Card({ title, period }: ICardProps) {
 			<Task
 				key={task.id}
 				data={task}
-				onClickEdit={handleEditTask}
 				onComplete={handleCompleteTask}
 			/>
 		));
@@ -104,7 +69,7 @@ export default function Card({ title, period }: ICardProps) {
 		}
 
 		scrollToBottom();
-	}, [newTask]);
+	}, [taskSnippet]);
 
 	return (
 		<div className="flex flex-col bg-pale-blue rounded-md border border-dark-50 w-[33.333%] max-h-[100%]">
@@ -117,7 +82,6 @@ export default function Card({ title, period }: ICardProps) {
 					<NewTask
 						isCreating={creatingTask === period}
 						onCreateNewTask={onCreateNewTask}
-						onChangeText={onChangeTextNewTask}
 						onAddNewTask={onAddNewTask}
 						onCloseNewTask={onCloseNewTask}
 					/>
