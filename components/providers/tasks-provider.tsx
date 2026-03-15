@@ -3,19 +3,11 @@
 import { TasksContext } from "@/components/contexts/tasksContext";
 import { useState } from "react";
 
-import { ITask } from "@/app/types/task";
-import { ITasksProviderProps } from "@/app/types/tasks-provider-props";
+import { ITask } from "@/app/types/task.types";
+import { ITasksProviderProps } from "@/app/types/tasks-provider-props.types";
 
 export function TasksProvider({ children }: ITasksProviderProps) {
-	const [tasks, setTasks] = useState<ITask[]>([
-		{
-			id: "1",
-			text: "Create Task component",
-			edit: false,
-			status: "in-progress",
-			period: "today",
-		},
-	]);
+	const [tasks, setTasks] = useState<ITask[]>([]);
 
 	const onClickEditTask = (id: string | undefined) => {
 		console.log(`edit`);
