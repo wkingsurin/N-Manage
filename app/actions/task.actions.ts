@@ -45,7 +45,7 @@ export async function getTasks() {
 	return tasks;
 }
 
-export async function saveTask(data: {id: string, title: string}) {
+export async function saveTask(data: { id: string; title: string }) {
 	await prisma.task.update({
 		where: {
 			id: data.id,
@@ -54,11 +54,46 @@ export async function saveTask(data: {id: string, title: string}) {
 			title: data.title,
 		},
 	});
+}
 
+export async function completeTask(data: { id: string; status: string }) {
+	await prisma.task.update({
+		where: {
+			id: data.id,
+		},
+		data: {
+			status: data.status,
+		},
+	});
+
+	revalidatePath("/dashboard");
 }
 
 // dev
 export async function clearTasks() {
 	await prisma.task.deleteMany();
 	revalidatePath("/dashboard");
+}
+
+export async function clearCurrentUserTasks() {
+	const session = await auth();
+
+	if (!session?.user?.id) {
+		throw new Error("Unauthorized");
+	}
+
+	try {
+		await prisma.task.deleteMany({
+			where: {
+				userId: session.user.id
+			}
+		});
+		revalidatePath("/dashboard");
+
+		return { success: true };
+	} catch (err) {
+		console.error(err);
+
+		return { success: false, error: "Failed to delete tasks" };
+	}
 }
