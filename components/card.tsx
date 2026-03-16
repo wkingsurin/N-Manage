@@ -2,29 +2,28 @@
 
 import Task from "./task";
 import NewTask from "./newTask";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 import { ICardProps } from "@/app/types/card.types";
 import { useNewTask } from "./hooks/useNewTask";
 import { useTaskSnippet } from "./hooks/useTaskSnippet";
-import { clearTasks } from "@/app/actions/task.actions";
+import { clearTasks, clearCurrentUserTasks } from "@/app/actions/task.actions";
 
 export default function Card({ title, period, tasksFromDB }: ICardProps) {
 	const { creatingTask, setCreatingTask } = useNewTask();
 	const { taskSnippet, setTaskSnippetPeriod, resetTaskSnippet } =
 		useTaskSnippet();
+	const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
 
 	const isFirstRender = useRef(true);
 	const anchorRef = useRef<HTMLDivElement | null>(null);
 
-	const handleCompleteTask = (id: string) => {
-		onCloseNewTask();
-	};
-
 	const onCreateNewTask = async () => {
 		// dev clean up
 		// await clearTasks();
+		// clearCurrentUserTasks()
 
+		setEditingTaskId(null);
 		resetTaskSnippet();
 		setTaskSnippetPeriod(period);
 
@@ -32,7 +31,7 @@ export default function Card({ title, period, tasksFromDB }: ICardProps) {
 	};
 
 	const onAddNewTask = () => {
-		onCloseNewTask();
+		setEditingTaskId(null);
 	};
 
 	const onCloseNewTask = () => {
@@ -57,7 +56,8 @@ export default function Card({ title, period, tasksFromDB }: ICardProps) {
 			<Task
 				key={task.id}
 				data={task}
-				onComplete={handleCompleteTask}
+				editingTaskId={editingTaskId}
+				setEditingTaskId={setEditingTaskId}
 			/>
 		));
 	}

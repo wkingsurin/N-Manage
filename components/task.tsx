@@ -6,12 +6,20 @@ import { useRef, useState } from "react";
 
 import { ITaskProps } from "@/app/types/task-props.types";
 import { ITask } from "@/app/types/task.types";
-import { saveTask } from "@/app/actions/task.actions";
-import { mapSaveTask } from "@/app/mappers/task.mapper";
+import { saveTask, completeTask } from "@/app/actions/task.actions";
+import { mapSaveTask, mapCompleteTask } from "@/app/mappers/task.mapper";
+import { useNewTask } from "./hooks/useNewTask";
 
-export default function Task({ data, onComplete }: ITaskProps) {
+export default function Task({
+	data,
+	editingTaskId,
+	setEditingTaskId,
+}: ITaskProps) {
 	const [task, setTask] = useState<ITask>(data);
+	const { setCreatingTask } = useNewTask();
 	const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+	const isEditing = task.id === editingTaskId;
 
 	const onChange = (text: string) => {
 		setTask((prevTask) => {
@@ -20,11 +28,13 @@ export default function Task({ data, onComplete }: ITaskProps) {
 	};
 
 	const onEdit = () => {
-		setTask((prevTask) => ({ ...prevTask, edit: true }));
+		closeAddTask();
+		setEditingTaskId(task.id);
 	};
 
 	const onSaveTask = async () => {
-		closeTaskEditing();
+		setEditingTaskId(null);
+		closeAddTask();
 
 		try {
 			const data = mapSaveTask(task);
@@ -34,12 +44,28 @@ export default function Task({ data, onComplete }: ITaskProps) {
 		}
 	};
 
+	const onComplete = async () => {
+		closeAddTask();
+		completeTaskUI();
+
+		try {
+			const data = mapCompleteTask({ ...task, status: "completed" });
+			await completeTask(data);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
 	const onFocus = () => {
 		textareaRef?.current?.focus();
 	};
 
-	function closeTaskEditing() {
-		setTask((prevTask) => ({ ...prevTask, edit: false }));
+	function completeTaskUI() {
+		setTask((prevTask) => ({ ...prevTask, eidt: false, status: "completed" }));
+	}
+
+	function closeAddTask() {
+		setCreatingTask(null);
 	}
 
 	return (
@@ -55,10 +81,10 @@ export default function Task({ data, onComplete }: ITaskProps) {
 					id="textarea-create"
 					value={task.text}
 					className={`outline-none resize-none field-sizing-content focus-visible:ring-0 focus-visible:ring-transparent border-none shadow-none p-0 min-h-auto select-none disabled:cursor-default`}
-					contentEditable={task.edit}
+					contentEditable={isEditing}
 					onChange={(e) => onChange(e.target.value)}
 					disabled={task.status === "completed"}
-					readOnly={!task.edit}
+					readOnly={!isEditing}
 					ref={textareaRef}
 				/>
 
@@ -66,7 +92,7 @@ export default function Task({ data, onComplete }: ITaskProps) {
 					<span
 						className="flex items-center justify-center opacity-0 hover:opacity-100 group-hover:opacity-50"
 						onClick={() => {
-							if (!task.edit) {
+							if (!isEditing) {
 								onEdit();
 								onFocus();
 								return;
@@ -82,7 +108,10 @@ export default function Task({ data, onComplete }: ITaskProps) {
 				className={`opacity-${
 					data.status === "completed" ? "100" : "0"
 				} group-hover:opacity-100`}
-				onClick={() => onComplete(task.id)}
+				onClick={() => {
+					console.log(`complete task`);
+					onComplete();
+				}}
 			>
 				<Check size={16} className="stroke-completed" />
 			</span>

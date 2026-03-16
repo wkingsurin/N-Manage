@@ -2,5 +2,6 @@ import { ITask } from "./task.types";
 
 export interface ITaskProps {
 	data: ITask;
-	onComplete: (id: string) => void;
+	editingTaskId: string | null;
+	setEditingTaskId: (id: string | null) => void;
 }
