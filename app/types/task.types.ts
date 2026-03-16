@@ -10,3 +10,8 @@ export interface UpdateTaskTextarea {
 	id: string;
 	title: string;
 }
+
+export interface UpdateTaskStatus {
+	id: string;
+	status: string;
+}

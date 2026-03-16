@@ -1,6 +1,10 @@
 import { Task } from "@/lib/generated/prisma/client";
 import { CreateTaskDTO } from "../schemas/task.schema";
-import { ITask, UpdateTaskTextarea } from "../types/task.types";
+import {
+	ITask,
+	UpdateTaskStatus,
+	UpdateTaskTextarea,
+} from "../types/task.types";
 import { getDueDate, getPeriodFromDate } from "../utils/date";
 import { ITaskSnippet } from "../types/task-snippet.types";
 
@@ -35,5 +39,12 @@ export function mapSaveTask(task: ITask): UpdateTaskTextarea {
 	return {
 		id: task.id,
 		title: task.text,
+	};
+}
+
+export function mapCompleteTask(task: ITask): UpdateTaskStatus {
+	return {
+		id: task.id,
+		status: task.status,
 	};
 }
