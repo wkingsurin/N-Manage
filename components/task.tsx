@@ -2,24 +2,22 @@
 
 import { Pencil, Check } from "lucide-react";
 import { Textarea } from "./ui/textarea";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { ITaskProps } from "@/app/types/task-props.types";
 import { ITask } from "@/app/types/task.types";
 import { saveTask, completeTask } from "@/app/actions/task.actions";
 import { mapSaveTask, mapCompleteTask } from "@/app/mappers/task.mapper";
-import { useNewTask } from "./hooks/useNewTask";
 
 export default function Task({
 	data,
-	editingTaskId,
+	isEditing,
 	setEditingTaskId,
+	closeTaskSnippet,
 }: ITaskProps) {
 	const [task, setTask] = useState<ITask>(data);
-	const { setCreatingTask } = useNewTask();
-	const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-	const isEditing = task.id === editingTaskId;
+	const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
 	const onChange = (text: string) => {
 		setTask((prevTask) => {
@@ -28,13 +26,13 @@ export default function Task({
 	};
 
 	const onEdit = () => {
-		closeAddTask();
+		closeTaskSnippet();
 		setEditingTaskId(task.id);
 	};
 
-	const onSaveTask = async () => {
+	const onSave = async () => {
 		setEditingTaskId(null);
-		closeAddTask();
+		closeTaskSnippet();
 
 		try {
 			const data = mapSaveTask(task);
@@ -45,7 +43,7 @@ export default function Task({
 	};
 
 	const onComplete = async () => {
-		closeAddTask();
+		closeTaskSnippet();
 		completeTaskUI();
 
 		try {
@@ -61,12 +59,12 @@ export default function Task({
 	};
 
 	function completeTaskUI() {
-		setTask((prevTask) => ({ ...prevTask, eidt: false, status: "completed" }));
+		setTask((prevTask) => ({ ...prevTask, edit: false, status: "completed" }));
 	}
 
-	function closeAddTask() {
-		setCreatingTask(null);
-	}
+	useEffect(() => {
+		onFocus()
+	}, [isEditing])
 
 	return (
 		<li
@@ -94,10 +92,9 @@ export default function Task({
 						onClick={() => {
 							if (!isEditing) {
 								onEdit();
-								onFocus();
 								return;
 							}
-							onSaveTask();
+							onSave();
 						}}
 					>
 						<Pencil size={16} className="stroke-dark" />
@@ -109,7 +106,6 @@ export default function Task({
 					data.status === "completed" ? "100" : "0"
 				} group-hover:opacity-100`}
 				onClick={() => {
-					console.log(`complete task`);
 					onComplete();
 				}}
 			>

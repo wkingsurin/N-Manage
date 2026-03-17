@@ -5,18 +5,18 @@ import { INewTaskProps } from "@/app/types/new-task-props.types";
 
 export default function NewTask({
 	isCreating,
-	onCreateNewTask,
-	onAddNewTask,
-	onCloseNewTask,
+	openTaskSnippet,
+	closeTaskEditing,
+	closeTaskSnippet,
 }: INewTaskProps) {
 	return (
 		<>
 			{!isCreating ? (
-				<AddTask onClick={onCreateNewTask} />
+				<AddTask onClick={openTaskSnippet} />
 			) : (
 				<CreateTask
-					onAddNewTask={onAddNewTask}
-					onCloseNewTask={onCloseNewTask}
+					closeTaskEditing={closeTaskEditing}
+					closeTaskSnippet={closeTaskSnippet}
 				/>
 			)}
 		</>

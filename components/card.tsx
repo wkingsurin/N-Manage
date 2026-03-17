@@ -7,7 +7,9 @@ import { useRef, useEffect, useState } from "react";
 import { ICardProps } from "@/app/types/card.types";
 import { useNewTask } from "./hooks/useNewTask";
 import { useTaskSnippet } from "./hooks/useTaskSnippet";
-import { clearTasks, clearCurrentUserTasks } from "@/app/actions/task.actions";
+
+// dev
+import { clearCurrentUserTasks } from "@/app/actions/task.actions";
 
 export default function Card({ title, period, tasksFromDB }: ICardProps) {
 	const { creatingTask, setCreatingTask } = useNewTask();
@@ -18,24 +20,27 @@ export default function Card({ title, period, tasksFromDB }: ICardProps) {
 	const isFirstRender = useRef(true);
 	const anchorRef = useRef<HTMLDivElement | null>(null);
 
-	const onCreateNewTask = async () => {
+	const openTaskSnippet = async () => {
 		// dev clean up
-		// await clearTasks();
 		// clearCurrentUserTasks()
+		console.log("======");
 
-		setEditingTaskId(null);
+		closeTaskEditing();
 		resetTaskSnippet();
-		setTaskSnippetPeriod(period);
 
 		setCreatingTask(period);
+		setTaskSnippetPeriod(period);
+		console.log(`[${period}] open task snippet`);
 	};
 
-	const onAddNewTask = () => {
+	const closeTaskEditing = () => {
 		setEditingTaskId(null);
+		console.log(`[${period}] close task editing`);
 	};
 
-	const onCloseNewTask = () => {
+	const closeTaskSnippet = () => {
 		setCreatingTask(null);
+		console.log(`[${period}] close task snippet`);
 	};
 
 	function scrollToBottom() {
@@ -46,18 +51,19 @@ export default function Card({ title, period, tasksFromDB }: ICardProps) {
 		anchor.scrollIntoView({ behavior: "auto" });
 	}
 
-	function getFilteredTasks(period: string | undefined) {
+	function filterTasks(period: string | undefined) {
 		return tasksFromDB.filter((task) => task.period === period);
 	}
 
 	function getTasks(period: string | undefined) {
-		const filtered = getFilteredTasks(period);
+		const filtered = filterTasks(period);
 		return filtered.map((task) => (
 			<Task
 				key={task.id}
 				data={task}
-				editingTaskId={editingTaskId}
+				isEditing={editingTaskId === task.id}
 				setEditingTaskId={setEditingTaskId}
+				closeTaskSnippet={closeTaskSnippet}
 			/>
 		));
 	}
@@ -81,9 +87,9 @@ export default function Card({ title, period, tasksFromDB }: ICardProps) {
 					{getTasks(period)}
 					<NewTask
 						isCreating={creatingTask === period}
-						onCreateNewTask={onCreateNewTask}
-						onAddNewTask={onAddNewTask}
-						onCloseNewTask={onCloseNewTask}
+						openTaskSnippet={openTaskSnippet}
+						closeTaskEditing={closeTaskEditing}
+						closeTaskSnippet={closeTaskSnippet}
 					/>
 				</ul>
 				<div ref={anchorRef}></div>

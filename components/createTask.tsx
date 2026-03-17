@@ -10,8 +10,8 @@ import { useTaskSnippet } from "./hooks/useTaskSnippet";
 import { mapTaskSnippetToCreateTask } from "@/app/mappers/task.mapper";
 
 export default function CreateTask({
-	onAddNewTask,
-	onCloseNewTask,
+	closeTaskEditing,
+	closeTaskSnippet,
 }: ICreateTaskProps) {
 	const { taskSnippet, onChange } = useTaskSnippet();
 
@@ -19,7 +19,7 @@ export default function CreateTask({
 		e.preventDefault();
 
 		if (!taskSnippet || !taskSnippet.text) {
-			onAddNewTask();
+			closeTaskEditing();
 			return;
 		}
 
@@ -29,7 +29,7 @@ export default function CreateTask({
 		if (!result.success) {
 			console.log(result.error);
 		} else {
-			onAddNewTask();
+			closeTaskEditing();
 		}
 	};
 
@@ -56,7 +56,7 @@ export default function CreateTask({
 					</Button>
 					<Button
 						className="bg-dark-300 hover:bg-dark-500 border-md"
-						onClick={onCloseNewTask}
+						onClick={closeTaskSnippet}
 					>
 						<X size={16} />
 					</Button>
