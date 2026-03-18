@@ -4,8 +4,7 @@ import { Pencil, Check } from "lucide-react";
 import { Textarea } from "./ui/textarea";
 import { useEffect, useRef, useState, memo } from "react";
 
-import { ITaskProps } from "@/app/types/task-props.types";
-import { ITask } from "@/app/types/task.types";
+import { ITask, ITaskProps } from "@/app/types/task.types";
 import { saveTask, completeTask } from "@/app/actions/task.actions";
 import { mapSaveTask, mapCompleteTask } from "@/app/mappers/task.mapper";
 
@@ -65,8 +64,8 @@ function Task({
 	}
 
 	useEffect(() => {
-		onFocus()
-	}, [isEditing])
+		onFocus();
+	}, [isEditing]);
 
 	return (
 		<li

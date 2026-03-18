@@ -21,24 +21,20 @@ function Card({
 	setEditingTaskId,
 }: ICardProps) {
 	const { creatingTask, setCreatingTask } = useNewTask();
-	const { taskSnippet, setTaskSnippetPeriod, resetTaskSnippet } =
-		useTaskSnippet();
-	const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
+	const { setTaskSnippetPeriod, resetTaskSnippet } = useTaskSnippet();
 
 	const anchorStartRef = useRef<HTMLDivElement | null>(null);
 	const anchorEndRef = useRef<HTMLDivElement | null>(null);
 
 	const openTaskSnippet = async () => {
 		// dev clean up
-		// clearCurrentUserTasks()
-		console.log("======");
+		// clearCurrentUserTasks();
 
 		closeTaskEditing();
 		resetTaskSnippet();
 
 		setCreatingTask(period);
 		setTaskSnippetPeriod(period);
-		console.log(`[${period}] open task snippet`);
 	};
 
 	const closeTaskEditing = useCallback(() => {
