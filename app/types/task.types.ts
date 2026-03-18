@@ -6,6 +6,13 @@ export interface ITask {
 	period: "today" | "week" | "month";
 }
 
+export interface ITaskProps {
+	data: ITask;
+	isEditing: boolean;
+	setEditingTaskId: (id: string | null) => void;
+	closeTaskSnippet: () => void;
+}
+
 export interface UpdateTaskTextarea {
 	id: string;
 	title: string;
