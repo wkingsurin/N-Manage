@@ -25,8 +25,8 @@ function Card({
 		useTaskSnippet();
 	const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
 
-	const isFirstRender = useRef(true);
-	const anchorRef = useRef<HTMLDivElement | null>(null);
+	const anchorStartRef = useRef<HTMLDivElement | null>(null);
+	const anchorEndRef = useRef<HTMLDivElement | null>(null);
 
 	const openTaskSnippet = async () => {
 		// dev clean up
@@ -49,14 +49,20 @@ function Card({
 		setCreatingTask(null);
 	}, [setCreatingTask]);
 
-	function scrollToBottom() {
-		const anchor = anchorRef.current;
+	function preventScroll() {
+		const anchorStart = anchorStartRef.current;
 
-		if (!anchor) return;
+		if (!anchorStart) return;
 
-		anchor.scrollIntoView({ behavior: "auto" });
+		anchorStart.scrollIntoView({ behavior: "auto" });
 	}
 
+	function scrollToBottom() {
+		const anchorEnd = anchorEndRef.current;
+
+		if (!anchorEnd) return;
+
+		anchorEnd.scrollIntoView({ behavior: "auto" });
 	}
 
 	function getTasks() {
@@ -72,20 +78,20 @@ function Card({
 	}
 
 	useEffect(() => {
-		if (isFirstRender.current) {
-			isFirstRender.current = false;
-			return;
-		}
+		preventScroll();
 
-		scrollToBottom();
-	}, [taskSnippet]);
+		if (creatingTask === period) {
+			scrollToBottom();
+		}
+	}, [creatingTask, period]);
 
 	return (
 		<div className="flex flex-col bg-pale-blue rounded-md border border-dark-50 w-[33.333%] max-h-[100%]">
 			<span className="font-poppins font-semibold text-base p-3 bg-dark-100">
 				{title}
 			</span>
-			<div className="overflow-y-auto p-3">
+			<div className="overflow-y-auto p-3 relative">
+				<div ref={anchorStartRef} className="absolute top-0"></div>
 				<ul className="flex flex-col gap-2">
 					{getTasks()}
 					<NewTask
@@ -95,7 +101,7 @@ function Card({
 						closeTaskSnippet={closeTaskSnippet}
 					/>
 				</ul>
-				<div ref={anchorRef}></div>
+				<div ref={anchorEndRef}></div>
 			</div>
 		</div>
 	);
