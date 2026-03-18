@@ -2,7 +2,7 @@
 
 import Task from "./task";
 import NewTask from "./newTask";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useCallback, memo } from "react";
 
 import { ICardProps } from "@/app/types/card.types";
 import { useNewTask } from "./hooks/useNewTask";
@@ -11,7 +11,15 @@ import { useTaskSnippet } from "./hooks/useTaskSnippet";
 // dev
 import { clearCurrentUserTasks } from "@/app/actions/task.actions";
 
-export default function Card({ title, period, tasksFromDB }: ICardProps) {
+export default memo(Card);
+
+function Card({
+	title,
+	period,
+	tasksFromDB,
+	editingTaskId,
+	setEditingTaskId,
+}: ICardProps) {
 	const { creatingTask, setCreatingTask } = useNewTask();
 	const { taskSnippet, setTaskSnippetPeriod, resetTaskSnippet } =
 		useTaskSnippet();
@@ -33,15 +41,13 @@ export default function Card({ title, period, tasksFromDB }: ICardProps) {
 		console.log(`[${period}] open task snippet`);
 	};
 
-	const closeTaskEditing = () => {
+	const closeTaskEditing = useCallback(() => {
 		setEditingTaskId(null);
-		console.log(`[${period}] close task editing`);
-	};
+	}, [setEditingTaskId]);
 
-	const closeTaskSnippet = () => {
+	const closeTaskSnippet = useCallback(() => {
 		setCreatingTask(null);
-		console.log(`[${period}] close task snippet`);
-	};
+	}, [setCreatingTask]);
 
 	function scrollToBottom() {
 		const anchor = anchorRef.current;
@@ -51,13 +57,10 @@ export default function Card({ title, period, tasksFromDB }: ICardProps) {
 		anchor.scrollIntoView({ behavior: "auto" });
 	}
 
-	function filterTasks(period: string | undefined) {
-		return tasksFromDB.filter((task) => task.period === period);
 	}
 
-	function getTasks(period: string | undefined) {
-		const filtered = filterTasks(period);
-		return filtered.map((task) => (
+	function getTasks() {
+		return tasksFromDB.map((task) => (
 			<Task
 				key={task.id}
 				data={task}
@@ -84,7 +87,7 @@ export default function Card({ title, period, tasksFromDB }: ICardProps) {
 			</span>
 			<div className="overflow-y-auto p-3">
 				<ul className="flex flex-col gap-2">
-					{getTasks(period)}
+					{getTasks()}
 					<NewTask
 						isCreating={creatingTask === period}
 						openTaskSnippet={openTaskSnippet}
