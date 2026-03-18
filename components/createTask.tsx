@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 
-import { ICreateTaskProps } from "@/app/types/create-task-props.types";
+import { ICreateTaskProps } from "@/app/types/create-task.types";
 import { createTask } from "@/app/actions/task.actions";
 import { useTaskSnippet } from "./hooks/useTaskSnippet";
 import { mapTaskSnippetToCreateTask } from "@/app/mappers/task.mapper";
@@ -29,6 +29,7 @@ export default function CreateTask({
 		if (!result.success) {
 			console.log(result.error);
 		} else {
+			closeTaskSnippet()
 			closeTaskEditing();
 		}
 	};
