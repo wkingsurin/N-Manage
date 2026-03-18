@@ -1,10 +1,10 @@
 import { auth } from "@/auth";
 import { redirect, RedirectType } from "next/navigation";
 
-import Card from "@/components/card";
 import { getTasks } from "../actions/task.actions";
 import { mapTaskFromDB } from "../mappers/task.mapper";
 import { TaskSnippetProvider } from "@/components/providers/task-snippet-provider";
+import CardsList from "@/components/cardsList";
 
 export default async function Dashboard() {
 	const session = await auth();
@@ -26,9 +26,7 @@ export default async function Dashboard() {
 						</h1>
 						<hr className="w-full h-1 bg-dark-50" />
 						<div className="flex w-full p-3 gap-4 items-start overflow-hidden">
-							<Card title="Today" period="today" tasksFromDB={tasksUI} />
-							<Card title="This week" period="week" tasksFromDB={tasksUI} />
-							<Card title="This month" period="month" tasksFromDB={tasksUI} />
+							<CardsList tasksUI={tasksUI} />
 						</div>
 					</div>
 				</div>
