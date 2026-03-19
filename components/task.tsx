@@ -13,29 +13,34 @@ export default memo(Task);
 function Task({
 	data,
 	isEditing,
-	setEditingTaskId,
 	closeTaskSnippet,
+	draftTask,
+	setDraftTask,
 }: ITaskProps) {
 	const [task, setTask] = useState<ITask>(data);
 
 	const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
 	const onChange = (text: string) => {
-		setTask((prevTask) => {
-			return { ...prevTask, text: text };
-		});
+		setDraftTask({ id: data.id, text: text });
 	};
 
 	const onEdit = () => {
+		setDraftTask({ id: task.id, text: task.text });
 		closeTaskSnippet();
-		setEditingTaskId(task.id);
 	};
 
 	const onSave = async () => {
-		setEditingTaskId(null);
+		setDraftTask({ id: null, text: "" });
 		closeTaskSnippet();
 
 		try {
+			if (draftTask?.text !== undefined) {
+				setTask((prevTask) => {
+					return { ...prevTask, text: draftTask?.text };
+				});
+			}
+
 			const data = mapSaveTask(task);
 			await saveTask(data);
 		} catch (err) {
@@ -44,7 +49,7 @@ function Task({
 	};
 
 	const onComplete = async () => {
-		setEditingTaskId(null);
+		setDraftTask({ id: null, text: "" });
 		closeTaskSnippet();
 		completeTaskUI();
 
@@ -79,7 +84,7 @@ function Task({
 				<Textarea
 					name="textarea-create"
 					id="textarea-create"
-					value={task.text}
+					value={isEditing ? draftTask?.text : task.text}
 					className={`outline-none resize-none field-sizing-content focus-visible:ring-0 focus-visible:ring-transparent border-none shadow-none p-0 min-h-auto select-none disabled:cursor-default`}
 					contentEditable={isEditing}
 					onChange={(e) => onChange(e.target.value)}

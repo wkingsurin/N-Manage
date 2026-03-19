@@ -1,3 +1,5 @@
+import { IDraftTask } from "./cards-list.types";
+
 export interface ITask {
 	id: string;
 	text: string;
@@ -9,8 +11,11 @@ export interface ITask {
 export interface ITaskProps {
 	data: ITask;
 	isEditing: boolean;
-	setEditingTaskId: (id: string | null) => void;
 	closeTaskSnippet: () => void;
+	draftTask: { id: IDraftTask["id"]; text: IDraftTask["text"] } | null;
+	setDraftTask: (
+		draft: { id: IDraftTask["id"]; text: IDraftTask["text"] } | null
+	) => void;
 }
 
 export interface UpdateTaskTextarea {

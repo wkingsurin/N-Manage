@@ -1,11 +1,15 @@
 "use client";
 
-import { ICardsListProps, ICardsType } from "@/app/types/cards-list.types";
+import {
+	ICardsListProps,
+	ICardsType,
+	IDraftTask,
+} from "@/app/types/cards-list.types";
 import Card from "./card";
 import { useState } from "react";
 
 export default function CardsList({ tasksUI }: ICardsListProps) {
-	const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
+	const [draftTask, setDraftTask] = useState<IDraftTask | null>(null);
 
 	const cards: ICardsType[] = [
 		{ title: "Today", period: "today" },
@@ -24,8 +28,8 @@ export default function CardsList({ tasksUI }: ICardsListProps) {
 				title={card.title}
 				period={card.period}
 				tasksFromDB={getTasksByPeriod(card.period)}
-				editingTaskId={editingTaskId}
-				setEditingTaskId={setEditingTaskId}
+				draftTask={draftTask}
+				setDraftTask={setDraftTask}
 			/>
 		));
 	}

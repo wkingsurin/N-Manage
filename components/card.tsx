@@ -17,8 +17,8 @@ function Card({
 	title,
 	period,
 	tasksFromDB,
-	editingTaskId,
-	setEditingTaskId,
+	draftTask,
+	setDraftTask,
 }: ICardProps) {
 	const { creatingTask, setCreatingTask } = useNewTask();
 	const { setTaskSnippetPeriod, resetTaskSnippet } = useTaskSnippet();
@@ -38,8 +38,8 @@ function Card({
 	};
 
 	const closeTaskEditing = useCallback(() => {
-		setEditingTaskId(null);
-	}, [setEditingTaskId]);
+		setDraftTask({ id: null, text: "" });
+	}, [setDraftTask]);
 
 	const closeTaskSnippet = useCallback(() => {
 		setCreatingTask(null);
@@ -66,8 +66,9 @@ function Card({
 			<Task
 				key={task.id}
 				data={task}
-				isEditing={editingTaskId === task.id}
-				setEditingTaskId={setEditingTaskId}
+				draftTask={draftTask}
+				setDraftTask={setDraftTask}
+				isEditing={draftTask?.id === task.id}
 				closeTaskSnippet={closeTaskSnippet}
 			/>
 		));
