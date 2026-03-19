@@ -83,8 +83,8 @@ function Card({
 	}, [creatingTask, period]);
 
 	return (
-		<div className="flex flex-col bg-pale-blue rounded-md border border-dark-50 w-[33.333%] max-h-[100%]">
-			<span className="font-poppins font-semibold text-base p-3 bg-dark-100">
+		<div className="flex flex-col bg-pale-blue rounded-md border border-dark-50 w-full max-h-[100%] sm:w-[33.333%]">
+			<span className="font-poppins font-semibold text-base p-3 bg-dark-100 rounded-md">
 				{title}
 			</span>
 			<div className="overflow-y-auto p-3 relative">
