@@ -44,6 +44,7 @@ function Task({
 	};
 
 	const onComplete = async () => {
+		setEditingTaskId(null);
 		closeTaskSnippet();
 		completeTaskUI();
 
