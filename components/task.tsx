@@ -61,8 +61,8 @@ function Task({
 		}
 	};
 
-	const onFocus = () => {
-		textareaRef?.current?.focus();
+	const onFocus = (preventScroll: boolean) => {
+		textareaRef?.current?.focus({ preventScroll: preventScroll });
 	};
 
 	function completeTaskUI() {
@@ -70,7 +70,7 @@ function Task({
 	}
 
 	useEffect(() => {
-		onFocus();
+		onFocus(true);
 	}, [isEditing]);
 
 	return (

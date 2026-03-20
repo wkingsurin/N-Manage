@@ -75,7 +75,11 @@ function Card({
 	}
 
 	useEffect(() => {
-		preventScroll();
+		const viewport = window.innerWidth;
+
+		if (viewport > 768) {
+			preventScroll();
+		}
 
 		if (creatingTask === period) {
 			scrollToBottom();
@@ -83,11 +87,11 @@ function Card({
 	}, [creatingTask, period]);
 
 	return (
-		<div className="flex flex-col bg-pale-blue rounded-md border border-dark-50 w-full max-h-[100%] sm:w-[33.333%]">
+		<div className="flex flex-col w-full shrink-0 sm:max-h-[100%] scroll-ml-3 bg-pale-blue border rounded-md border-dark-50 snap-start sm:w-[33.333%] sm:shrink">
 			<span className="font-poppins font-semibold text-base p-3 bg-dark-100 rounded-md">
 				{title}
 			</span>
-			<div className="overflow-y-auto p-3 relative">
+			<div className="overflow-y-auto touch-pan-y p-3 relative">
 				<div ref={anchorStartRef} className="absolute top-0"></div>
 				<ul className="flex flex-col gap-2">
 					{getTasks()}

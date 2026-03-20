@@ -34,5 +34,11 @@ export default function CardsList({ tasksUI }: ICardsListProps) {
 		));
 	}
 
-	return <>{getCards()}</>;
+	return (
+		<div
+			className={`flex flex-row w-full py-3 gap-4 items-start overflow-x-auto scrollbar-hide px-3 sm:overflow-hidden scroll-smooth snap-mandatory snap-x touch-pan-x`}
+		>
+			{getCards()}
+		</div>
+	);
 }

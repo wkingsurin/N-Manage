@@ -1,7 +1,7 @@
 import AddTask from "./addTask";
 import CreateTask from "./createTask";
 
-import { INewTaskProps } from "@/app/types/new-task-props.types";
+import { INewTaskProps } from "@/app/types/new-task.types";
 
 export default function NewTask({
 	isCreating,
