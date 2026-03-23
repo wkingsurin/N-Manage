@@ -5,69 +5,35 @@ import { Textarea } from "./ui/textarea";
 import { useEffect, useRef, useState, memo } from "react";
 
 import { ITask, ITaskProps } from "@/app/types/task.types";
-import { saveTask, completeTask } from "@/app/actions/task.actions";
-import { mapSaveTask, mapCompleteTask } from "@/app/mappers/task.mapper";
+import { useTaskUIStore } from "@/lib/task-ui.store";
+import useTaskUIController from "./hooks/task-ui-controller";
 
 export default memo(Task);
 
-function Task({
-	data,
-	isEditing,
-	closeTaskSnippet,
-	draftTask,
-	setDraftTask,
-}: ITaskProps) {
+function Task({ data }: ITaskProps) {
 	const [task, setTask] = useState<ITask>(data);
+	const draftTask = useTaskUIStore((s) => s.draftTask);
+	const { editTask, editingTask, completeTask, saveTaskController } =
+		useTaskUIController();
 
+	const isEditing = draftTask?.id === task.id;
 	const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
 	const onChange = (text: string) => {
-		setDraftTask({ id: data.id, text: text });
+		editingTask({ ...data, text });
 	};
 
-	const onEdit = () => {
-		setDraftTask({ id: task.id, text: task.text });
-		closeTaskSnippet();
+	const onSave = () => {
+		saveTaskController(task, setTask);
 	};
 
-	const onSave = async () => {
-		setDraftTask({ id: null, text: "" });
-		closeTaskSnippet();
-
-		try {
-			if (draftTask?.text !== undefined) {
-				setTask((prevTask) => {
-					return { ...prevTask, text: draftTask?.text };
-				});
-			}
-
-			const data = mapSaveTask(task);
-			await saveTask(data);
-		} catch (err) {
-			console.error(err);
-		}
-	};
-
-	const onComplete = async () => {
-		setDraftTask({ id: null, text: "" });
-		closeTaskSnippet();
-		completeTaskUI();
-
-		try {
-			const data = mapCompleteTask({ ...task, status: "completed" });
-			await completeTask(data);
-		} catch (err) {
-			console.error(err);
-		}
+	const onComplete = () => {
+		completeTask({ ...task, status: "completed" }, setTask);
 	};
 
 	const onFocus = (preventScroll: boolean) => {
 		textareaRef?.current?.focus({ preventScroll: preventScroll });
 	};
-
-	function completeTaskUI() {
-		setTask((prevTask) => ({ ...prevTask, edit: false, status: "completed" }));
-	}
 
 	useEffect(() => {
 		onFocus(true);
@@ -98,7 +64,7 @@ function Task({
 						className="flex items-center justify-center opacity-0 hover:opacity-100 group-hover:opacity-50"
 						onClick={() => {
 							if (!isEditing) {
-								onEdit();
+								editTask(task);
 								return;
 							}
 							onSave();

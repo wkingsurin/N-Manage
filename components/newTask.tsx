@@ -3,22 +3,14 @@ import CreateTask from "./createTask";
 
 import { INewTaskProps } from "@/app/types/new-task.types";
 
-export default function NewTask({
-	isCreating,
-	openTaskSnippet,
-	closeTaskEditing,
-	closeTaskSnippet,
-}: INewTaskProps) {
+export default function NewTask({ isCreating, period }: INewTaskProps) {
 	return (
-		<>
+		<div className="hidden sm:block">
 			{!isCreating ? (
-				<AddTask onClick={openTaskSnippet} />
+				<AddTask period={period} />
 			) : (
-				<CreateTask
-					closeTaskEditing={closeTaskEditing}
-					closeTaskSnippet={closeTaskSnippet}
-				/>
+				<CreateTask period={period} />
 			)}
-		</>
+		</div>
 	);
 }

@@ -7,6 +7,7 @@ import {
 } from "@/app/types/cards-list.types";
 import Card from "./card";
 import { useState } from "react";
+import Tabbar from "./tabbar";
 
 export default function CardsList({ tasksUI }: ICardsListProps) {
 	const [draftTask, setDraftTask] = useState<IDraftTask | null>(null);
@@ -36,9 +37,10 @@ export default function CardsList({ tasksUI }: ICardsListProps) {
 
 	return (
 		<div
-			className={`flex flex-row w-full py-3 gap-4 items-start overflow-x-auto scrollbar-hide px-3 sm:overflow-hidden scroll-smooth snap-mandatory snap-x touch-pan-x`}
+			className={`flex flex-row flex-1 w-full py-3 gap-4 overflow-x-auto scrollbar-hide px-3 sm:overflow-hidden scroll-smooth snap-mandatory snap-x touch-pan-x`}
 		>
 			{getCards()}
+			<Tabbar />
 		</div>
 	);
 }

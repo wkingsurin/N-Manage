@@ -5,33 +5,16 @@ import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 
 import { ICreateTaskProps } from "@/app/types/create-task.types";
-import { createTask } from "@/app/actions/task.actions";
-import { useTaskSnippet } from "./hooks/useTaskSnippet";
-import { mapTaskSnippetToCreateTask } from "@/app/mappers/task.mapper";
+import { useTaskUIStore } from "@/lib/task-ui.store";
+import useTaskUIController from "./hooks/task-ui-controller";
 
-export default function CreateTask({
-	closeTaskEditing,
-	closeTaskSnippet,
-}: ICreateTaskProps) {
-	const { taskSnippet, onChange } = useTaskSnippet();
+export default function CreateTask({}: ICreateTaskProps) {
+	const { submitTask, closeSnippet } = useTaskUIController();
+	const updateSnippet = useTaskUIStore((state) => state.updateTaskSnippet);
 
-	const onSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+	const onSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault();
-
-		if (!taskSnippet || !taskSnippet.text) {
-			closeTaskEditing();
-			return;
-		}
-
-		const data = mapTaskSnippetToCreateTask(taskSnippet);
-		const result = await createTask(data);
-
-		if (!result.success) {
-			console.log(result.error);
-		} else {
-			closeTaskSnippet()
-			closeTaskEditing();
-		}
+		submitTask();
 	};
 
 	return (
@@ -47,7 +30,7 @@ export default function CreateTask({
 					placeholder="Typing your task..."
 					className="w-full bg-white focus:shadow-md rounded-md py-[10px] px-3 outline-none resize-none field-sizing-content min-h-[57px] max-h-[92]  focus-visible:ring-0 focus-visible:ring-transparent border-none"
 					onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-						onChange(e.target.value)
+						updateSnippet({ text: e.target.value })
 					}
 					autoFocus
 				/>
@@ -57,7 +40,7 @@ export default function CreateTask({
 					</Button>
 					<Button
 						className="bg-dark-300 hover:bg-dark-500 border-md"
-						onClick={closeTaskSnippet}
+						onClick={closeSnippet}
 					>
 						<X size={16} />
 					</Button>
