@@ -2,9 +2,15 @@
 
 import { auth } from "@/auth";
 import { CreateTaskDTO, createTaskSchema } from "../schemas/task.schema";
-import { mapCreateTask } from "../mappers/task.mapper";
+import {
+	mapCompleteTask,
+	mapCreateTask,
+	mapSaveTask,
+	mapTaskSnippetToCreateTask,
+} from "../mappers/task.mapper";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { ITask } from "../types/task.types";
 
 export async function createTask(formData: CreateTaskDTO) {
 	const session = await auth();
@@ -14,8 +20,7 @@ export async function createTask(formData: CreateTaskDTO) {
 	}
 
 	try {
-		const data = createTaskSchema.parse(formData);
-
+		const data = mapTaskSnippetToCreateTask(createTaskSchema.parse(formData));
 		const taskData = mapCreateTask(data, session.user.id);
 
 		await prisma.task.create({ data: taskData });
@@ -45,28 +50,46 @@ export async function getTasks() {
 	return tasks;
 }
 
-export async function saveTask(data: { id: string; title: string }) {
-	await prisma.task.update({
-		where: {
-			id: data.id,
-		},
-		data: {
-			title: data.title,
-		},
-	});
+export async function saveTask(data: ITask) {
+	try {
+		const task = mapSaveTask(data);
+
+		await prisma.task.update({
+			where: {
+				id: task.id,
+			},
+			data: {
+				title: task.title,
+			},
+		});
+		return { success: true };
+	} catch (err) {
+		console.error(err);
+
+		return { success: false, error: "Failed to save task" };
+	}
 }
 
-export async function completeTask(data: { id: string; status: string }) {
-	await prisma.task.update({
-		where: {
-			id: data.id,
-		},
-		data: {
-			status: data.status,
-		},
-	});
+export async function completeTask(data: ITask) {
+	try {
+		const task = mapCompleteTask(data);
 
-	revalidatePath("/dashboard");
+		await prisma.task.update({
+			where: {
+				id: task.id,
+			},
+			data: {
+				status: task.status,
+			},
+		});
+
+		revalidatePath("/dashboard");
+		return { success: true };
+	} catch (err) {
+		console.error(err);
+
+		return { success: false, error: "Failed completion task" };
+	}
 }
 
 // dev
@@ -85,8 +108,8 @@ export async function clearCurrentUserTasks() {
 	try {
 		await prisma.task.deleteMany({
 			where: {
-				userId: session.user.id
-			}
+				userId: session.user.id,
+			},
 		});
 		revalidatePath("/dashboard");
 
