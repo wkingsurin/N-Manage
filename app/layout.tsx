@@ -5,7 +5,6 @@ import "./globals.css";
 import AuthProvider from "@/components/providers/session-provider";
 
 import Header from "@/components/header";
-import { NewTaskProvider } from "@/components/providers/new-task-provider";
 
 const poppins = Poppins({
 	variable: "--font-poppins",
@@ -33,7 +32,7 @@ export default async function RootLayout({
 			<body className={`${poppins.variable} ${inter.variable} antialiased`}>
 				<AuthProvider>
 					<Header />
-					<NewTaskProvider>{children}</NewTaskProvider>
+					{children}
 				</AuthProvider>
 			</body>
 		</html>
