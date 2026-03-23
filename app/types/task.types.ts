@@ -1,21 +1,15 @@
-import { IDraftTask } from "./cards-list.types";
+import { Period } from "./shared.types";
 
 export interface ITask {
 	id: string;
 	text: string;
 	edit: boolean;
 	status: string;
-	period: "today" | "week" | "month";
+	period: Period;
 }
 
 export interface ITaskProps {
 	data: ITask;
-	isEditing: boolean;
-	closeTaskSnippet: () => void;
-	draftTask: { id: IDraftTask["id"]; text: IDraftTask["text"] } | null;
-	setDraftTask: (
-		draft: { id: IDraftTask["id"]; text: IDraftTask["text"] } | null
-	) => void;
 }
 
 export interface UpdateTaskTextarea {

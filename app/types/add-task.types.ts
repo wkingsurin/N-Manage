@@ -1,3 +1,5 @@
+import { Period } from "./shared.types";
+
 export interface IAddTaskProps {
-	onClick: () => void;
+	period: Period;
 }

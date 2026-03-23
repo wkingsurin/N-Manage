@@ -1,4 +1,5 @@
+import { Period } from "./shared.types";
+
 export interface ICreateTaskProps {
-	closeTaskEditing: () => void;
-	closeTaskSnippet: () => void;
+	period: Period;
 }

@@ -1,3 +1,4 @@
+import { ID, Period } from "./shared.types";
 import { ITask } from "./task.types";
 
 export interface ICardsListProps {
@@ -6,10 +7,10 @@ export interface ICardsListProps {
 
 export interface ICardsType {
 	title: string;
-	period: "today" | "week" | "month";
+	period: Period;
 }
 
 export interface IDraftTask {
-	id: string | null;
+	id: ID;
 	text: string;
 }

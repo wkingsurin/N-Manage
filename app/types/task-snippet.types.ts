@@ -1,5 +1,7 @@
+import { Period } from "./shared.types";
+
 export interface ITaskSnippet {
 	text: string;
 	status: string;
-	period: "today" | "week" | "month";
+	period: Period;
 }

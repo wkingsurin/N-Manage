@@ -1,11 +1,11 @@
+import { ID, Period } from "./shared.types";
+
 export interface INewTaskProps {
 	isCreating: boolean;
-	openTaskSnippet: () => void;
-	closeTaskEditing: () => void;
-	closeTaskSnippet: () => void;
+	period: Period;
 }
 
 export interface NewTaskContextType {
-	creatingTask: string | null;
-	setCreatingTask: (id: string | null) => void;
+	creatingTask: Period | null;
+	setCreatingTask: (id: ID) => void;
 }
