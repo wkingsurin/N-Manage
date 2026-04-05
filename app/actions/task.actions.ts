@@ -92,6 +92,23 @@ export async function completeTask(data: ITask) {
 	}
 }
 
+export async function deleteTask(id: string) {
+	try {
+		await prisma.task.delete({
+			where: {
+				id,
+			},
+		});
+
+		revalidatePath("/dashboard");
+		return { success: true };
+	} catch (err) {
+		console.error(err);
+
+		return { success: false, error: "Deleting task failed" };
+	}
+}
+
 // dev
 export async function clearTasks() {
 	await prisma.task.deleteMany();
