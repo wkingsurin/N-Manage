@@ -35,7 +35,7 @@ export default function TasksList({ ids, isMobile, children }: IProps) {
 
 	return (
 		<ul
-			className={`group flex flex-col gap-[1px] sm:gap-2 h-full sm:h-auto b-3 overflow-y-auto ${
+			className={`flex flex-col gap-[1px] sm:gap-2 h-full sm:h-auto b-3 overflow-y-auto ${
 				draftTask && "overflow-y-hidden"
 			} sm:overflow-visible scrollbar-hide desktop-scrollbar`}
 		>

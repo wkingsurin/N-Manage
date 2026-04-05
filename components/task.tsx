@@ -104,29 +104,25 @@ function Task({ id, isMobile }: ITaskProps) {
 					readOnly={!isActive}
 					ref={textareaRef}
 				/>
-				{!isMobile && (
-					<>
-						{!isCompleted && (
-							<span
-								className="flex items-center justify-center opacity-0 hover:opacity-100 group-hover:opacity-50"
-								onClick={() => {
-									if (!isActive) {
-										useUIStore.getState().updateEditModal({
-											isOpened: true,
-										});
-										useUIStore.getState().updateIsOpenedOverlay(true);
-										useUIStore.getState().updateActiveTask(id);
-										useTasksUIStore.getState().editTask(task);
-										return;
-									}
-									useUIStore.getState().updateActiveTask(null);
-									onSave();
-								}}
-							>
-								<Pencil size={16} className="stroke-dark dark:stroke-surface" />
-							</span>
-						)}
-					</>
+				{!isMobile && !isCompleted && (
+					<span
+						className="flex items-center justify-center opacity-0 hover:opacity-100 group-hover:opacity-50"
+						onClick={() => {
+							if (!isActive) {
+								useUIStore.getState().updateEditModal({
+									isOpened: true,
+								});
+								useUIStore.getState().updateIsOpenedOverlay(true);
+								useUIStore.getState().updateActiveTask(id);
+								useTasksUIStore.getState().editTask(task);
+								return;
+							}
+							useUIStore.getState().updateActiveTask(null);
+							onSave();
+						}}
+					>
+						<Pencil size={16} className="stroke-dark dark:stroke-surface" />
+					</span>
 				)}
 			</div>
 			{!isMobile && (
