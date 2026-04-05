@@ -1,16 +1,19 @@
 "use client";
 
-import { IAddTaskProps } from "@/app/types/add-task.types";
 import { Plus } from "lucide-react";
-import useTaskUIController from "./hooks/task-ui-controller";
+import { useTasksUIStore } from "@/lib/tasks.store";
+import { Period } from "@/app/types/shared.types";
 
-export default function AddTask({ period }: IAddTaskProps) {
-	const { startCreatingTask } = useTaskUIController();
-	const onClick = () => startCreatingTask(period);
+interface IProps {
+	period: Period;
+}
+
+export default function AddTask({ period }: IProps) {
+	const onClick = () => useTasksUIStore.getState().startCreatingTask(period);
 
 	return (
 		<li
-			className="flex gap-1 items-center max-h-10 text-dark-500 bg-dark-50 hover:bg-dark-100 hover:text-dark-700 rounded-md py-[10px] px-3 select-none"
+			className="flex gap-1 items-center max-h-10 text-dark-500 bg-dark-50 dark:text-surface-300 dark:bg-dark-500 hover:bg-dark-100 hover:dark:bg-dark hover:text-dark-500 hover:dark:text-surface-500 rounded-md py-[10px] px-3 select-none"
 			onClick={onClick}
 		>
 			<Plus size={16} />
