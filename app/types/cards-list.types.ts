@@ -1,8 +1,7 @@
 import { ID, Period } from "./shared.types";
-import { ITask } from "./task.types";
 
 export interface ICardsListProps {
-	tasksUI: ITask[];
+	isMobile?: boolean
 }
 
 export interface ICardsType {

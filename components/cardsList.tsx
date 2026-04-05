@@ -1,16 +1,14 @@
 "use client";
 
-import {
-	ICardsListProps,
-	ICardsType,
-	IDraftTask,
-} from "@/app/types/cards-list.types";
+import { ICardsListProps, ICardsType } from "@/app/types/cards-list.types";
 import Card from "./card";
-import { useState } from "react";
-import Tabbar from "./tabbar";
+import { memo } from "react";
+import { useUIStore } from "@/lib/ui.store";
 
-export default function CardsList({ tasksUI }: ICardsListProps) {
-	const [draftTask, setDraftTask] = useState<IDraftTask | null>(null);
+export default memo(CardsList);
+
+function CardsList({ isMobile }: ICardsListProps) {
+	const activeTab = useUIStore((s) => s.creatingTaskTab);
 
 	const cards: ICardsType[] = [
 		{ title: "Today", period: "today" },
@@ -18,29 +16,21 @@ export default function CardsList({ tasksUI }: ICardsListProps) {
 		{ title: "This month", period: "month" },
 	];
 
-	function getTasksByPeriod(period: string) {
-		return tasksUI.filter((task) => task.period === period);
-	}
-
 	function getCards() {
-		return cards.map((card) => (
-			<Card
-				key={card.title}
-				title={card.title}
-				period={card.period}
-				tasksFromDB={getTasksByPeriod(card.period)}
-				draftTask={draftTask}
-				setDraftTask={setDraftTask}
-			/>
-		));
+		return cards.map((card) => {
+			const isActive = activeTab === card.period;
+
+			return (
+				<Card
+					key={card.period}
+					isMobile={isMobile}
+					isActive={isActive}
+					title={card.title}
+					period={card.period}
+				/>
+			);
+		});
 	}
 
-	return (
-		<div
-			className={`flex flex-row flex-1 w-full py-3 gap-4 overflow-x-auto scrollbar-hide px-3 sm:overflow-hidden scroll-smooth snap-mandatory snap-x touch-pan-x`}
-		>
-			{getCards()}
-			<Tabbar />
-		</div>
-	);
+	return <>{getCards()}</>;
 }
