@@ -1,7 +1,7 @@
 import { ID, Period } from "./shared.types";
 
 export interface INewTaskProps {
-	isCreating: boolean;
+	isOpened: boolean;
 	period: Period;
 }
 
