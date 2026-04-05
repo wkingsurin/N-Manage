@@ -11,6 +11,16 @@
 	--pale-blue: oklch(0.9523 0.0103 247.93);
 	--secondary: #6366f1;
 	--surface: #ffffff;
+	--surface-50: oklch(1 0 0 / 5%);
+	--surface-100: oklch(1 0 0 / 10%);
+	--surface-200: oklch(1 0 0 / 20%);
+	--surface-300: oklch(1 0 0 / 30%);
+	--surface-400: oklch(1 0 0 / 40%);
+	--surface-500: oklch(1 0 0 / 50%);
+	--surface-600: oklch(1 0 0 / 60%);
+	--surface-700: oklch(1 0 0 / 70%);
+	--surface-800: oklch(1 0 0 / 80%);
+	--surface-900: oklch(1 0 0 / 90%);
 	--accent: #22c55e;
 	--dark: #1e293b;
 	--dark-50: oklch(0.2795 0.0368 260.02 / 5%);
@@ -23,11 +33,38 @@
 	--dark-700: oklch(0.2795 0.0368 260.02 / 70%);
 	--dark-800: oklch(0.2795 0.0368 260.02 / 80%);
 	--dark-900: oklch(0.2795 0.0368 260.02 / 90%);
+	--gloomy: oklch(0.2545 0.0359 258.89);
+	--gloomy-100: oklch(0.2545 0.0359 258.89 / 10%);
+	--gloomy-200: oklch(0.2545 0.0359 258.89 / 20%);
+	--gloomy-300: oklch(0.2545 0.0359 258.89 / 30%);
+	--gloomy-400: oklch(0.2545 0.0359 258.89 / 40%);
+	--gloomy-500: oklch(0.2545 0.0359 258.89 / 50%);
+	--gloomy-600: oklch(0.2545 0.0359 258.89 / 60%);
+	--gloomy-700: oklch(0.2545 0.0359 258.89 / 70%);
+	--gloomy-800: oklch(0.2545 0.0359 258.89 / 80%);
+	--gloomy-900: oklch(0.2545 0.0359 258.89 / 90%);
+	--white-100: oklch(1 0 0 / 10%);
+	--white-200: oklch(1 0 0 / 20%);
+	--white-300: oklch(1 0 0 / 30%);
+	--white-400: oklch(1 0 0 / 40%);
+	--white-500: oklch(1 0 0 / 50%);
+	--white-600: oklch(1 0 0 / 60%);
+	--white-700: oklch(1 0 0 / 70%);
+	--white-800: oklch(1 0 0 / 80%);
+	--white-900: oklch(1 0 0 / 90%);
 	--completed: #22c55e;
 	--progress: #3b82f6;
 	--soon: #f59e0b;
 	--overdue: oklch(0.6368 0.2078 25.33);
+	--overdue-100: oklch(0.6368 0.2078 25.33 / 10%);
+	--overdue-200: oklch(0.6368 0.2078 25.33 / 20%);
+	--overdue-300: oklch(0.6368 0.2078 25.33 / 30%);
+	--overdue-400: oklch(0.6368 0.2078 25.33 / 40%);
+	--overdue-500: oklch(0.6368 0.2078 25.33 / 50%);
+	--overdue-600: oklch(0.6368 0.2078 25.33 / 60%);
 	--overdue-700: oklch(0.6368 0.2078 25.33 / 70%);
+	--overdue-800: oklch(0.6368 0.2078 25.33 / 80%);
+	--overdue-900: oklch(0.6368 0.2078 25.33 / 90%);
 	--background: #f8fafc;
 	--foreground: oklch(0.145 0 0);
 	--card: oklch(1 0 0);
@@ -63,6 +100,16 @@
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
 	--color-surface: var(--surface);
+	--color-surface-50: var(--surface-50);
+	--color-surface-100: var(--surface-100);
+	--color-surface-200: var(--surface-200);
+	--color-surface-300: var(--surface-300);
+	--color-surface-400: var(--surface-400);
+	--color-surface-500: var(--surface-500);
+	--color-surface-600: var(--surface-600);
+	--color-surface-700: var(--surface-700);
+	--color-surface-800: var(--surface-800);
+	--color-surface-900: var(--surface-900);
 	--color-primary: var(--primary);
 	--color-primary-500: var(--primary-500);
 	--color-pale-blue: var(--pale-blue);
@@ -79,11 +126,29 @@
 	--color-dark-700: var(--dark-700);
 	--color-dark-800: var(--dark-800);
 	--color-dark-900: var(--dark-900);
+	--color-gloomy: var(--gloomy);
+	--color-gloomy-100: var(--gloomy-100);
+	--color-gloomy-200: var(--gloomy-200);
+	--color-gloomy-300: var(--gloomy-300);
+	--color-gloomy-400: var(--gloomy-400);
+	--color-gloomy-500: var(--gloomy-500);
+	--color-gloomy-600: var(--gloomy-600);
+	--color-gloomy-700: var(--gloomy-700);
+	--color-gloomy-800: var(--gloomy-800);
+	--color-gloomy-900: var(--gloomy-900);
 	--color-completed: var(--completed);
 	--color-progress: var(--progress);
 	--color-soon: var(--soon);
 	--color-overdue: var(--overdue);
+	--color-overdue-100: var(--overdue-100);
+	--color-overdue-200: var(--overdue-200);
+	--color-overdue-300: var(--overdue-300);
+	--color-overdue-400: var(--overdue-400);
+	--color-overdue-500: var(--overdue-500);
+	--color-overdue-600: var(--overdue-600);
 	--color-overdue-700: var(--overdue-700);
+	--color-overdue-800: var(--overdue-800);
+	--color-overdue-900: var(--overdue-900);
 	--font-poppins: var(--font-poppins);
 	--font-inter: var(--font-inter);
 	--font-sans: var(--font-sans);
@@ -172,6 +237,23 @@ body {
 	}
 	html {
 		@apply font-sans;
+	}
+}
+
+@layer utilities {
+	@media (min-width: 768px) {
+		.desktop-scrollbar {
+			-ms-overflow-style: auto !important;
+			scrollbar-width: auto !important;
+		}
+		.desktop-scrollbar::-webkit-scrollbar {
+			display: block !important;
+			height: 8px;
+		}
+		.desktop-scrollbar::-webkit-scrollbar-thumb {
+			background-color: #cbd5e1;
+			border-radius: 10px;
+		}
 	}
 }
 
