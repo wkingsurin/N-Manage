@@ -21,7 +21,6 @@ export function mapTaskFromDB(task: Task): ITask {
 	return {
 		id: task.id,
 		text: task.title,
-		edit: false,
 		status: task.status,
 		period: getPeriodFromDate(task.dueDate),
 	};
