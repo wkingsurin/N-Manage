@@ -3,9 +3,13 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import SignOutButton from "./shared/signOutButton";
 import { auth } from "@/auth";
+import isMobileDevice from "./hooks/isMobileDevice";
 
 export default async function Header() {
-	const session = await auth()
+	const session = await auth();
+
+	const isMobile = await isMobileDevice();
+	if (isMobile) return null;
 
 	const signBlock = !session ? (
 		<>
@@ -23,11 +27,11 @@ export default async function Header() {
 	) : (
 		<>
 			<div className="flex gap-[10px] items-center">
-				<span className="text-dark-500">Hello, {session.user?.email}</span>
-				<User className="stroke-dark" />
+				<span className="text-dark-500 dark:text-surface-800">Hello, {session.user?.email}</span>
+				<User className="stroke-dark dark:stroke-surface-800" />
 			</div>
 			<Link href="/sign-in">
-				<SignOutButton className="bg-overdue hover:bg-overdue-700">
+				<SignOutButton className="dark:text-overdue dark:bg-overdue-200 bg-overdue hover:bg-overdue-700">
 					Sign out
 				</SignOutButton>
 			</Link>
@@ -35,11 +39,11 @@ export default async function Header() {
 	);
 
 	return (
-		<header className="hidden h-15 shadow-md mb-[10px] sm:block">
-			<div className="container box-border px-4 mx-auto h-full flex justify-between items-center">
+		<header className="hidden h-15 shadow-md mb-[10px] sm:block dark:bg-dark dark:border-b-[0.5px] dark:border-surface-50">
+			<div className="max-w-[1280px] w-full box-border px-4 mx-auto h-full flex justify-between items-center">
 				<Link href="/" className="hidden gap-1 items-center sm:flex">
-					<CalendarClock className="stroke-dark" />
-					<p className="text-dark">N Manage</p>
+					<CalendarClock className="stroke-dark dark:stroke-surface-800" />
+					<p className="text-dark dark:text-surface-800">N Manage</p>
 				</Link>
 				<div className="flex gap-4">{signBlock}</div>
 			</div>
