@@ -3,13 +3,13 @@ import { Period } from "./shared.types";
 export interface ITask {
 	id: string;
 	text: string;
-	edit: boolean;
 	status: string;
 	period: Period;
 }
 
 export interface ITaskProps {
-	data: ITask;
+	id: string;
+	isMobile?: boolean;
 }
 
 export interface UpdateTaskTextarea {

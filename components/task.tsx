@@ -2,33 +2,52 @@
 
 import { Pencil, Check } from "lucide-react";
 import { Textarea } from "./ui/textarea";
-import { useEffect, useRef, useState, memo } from "react";
+import { useEffect, useRef, memo } from "react";
 
-import { ITask, ITaskProps } from "@/app/types/task.types";
-import { useTaskUIStore } from "@/lib/task-ui.store";
-import useTaskUIController from "./hooks/task-ui-controller";
+import { ITaskProps } from "@/app/types/task.types";
+import { useTasksUIStore } from "@/lib/tasks.store";
+import { useDraftTaskUIStore } from "@/lib/draft-ui.store";
+import { useUIStore } from "@/lib/ui.store";
+import { truncate } from "@/app/utils/truncate";
+import getAbsoultePoistion from "@/app/utils/get-absolute-position";
 
 export default memo(Task);
 
-function Task({ data }: ITaskProps) {
-	const [task, setTask] = useState<ITask>(data);
-	const draftTask = useTaskUIStore((s) => s.draftTask);
-	const { editTask, editingTask, completeTask, saveTaskController } =
-		useTaskUIController();
+function Task({ id, isMobile }: ITaskProps) {
+	const task = useTasksUIStore((s) => s.tasksById[id]);
+	const isActive = useUIStore((s) => s.activeTaskId === id);
+	const draftTask = useDraftTaskUIStore((s) =>
+		isActive ? s.draftsById[id] : null
+	);
 
-	const isEditing = draftTask?.id === task.id;
+	const taskRef = useRef<HTMLLIElement | null>(null);
 	const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
+	const value = truncate({
+		text: task.text,
+		maxLength: isMobile ? 30 : 50,
+	});
+	const isDisabled = task.status === "completed";
+	const isCompleted = task.status === "completed";
+
 	const onChange = (text: string) => {
-		editingTask({ ...data, text });
+		useTasksUIStore.getState().editingTask({ id: task.id, text });
 	};
 
 	const onSave = () => {
-		saveTaskController(task, setTask);
+		if (isActive) {
+			useTasksUIStore.getState().saveTask(id);
+		}
 	};
 
 	const onComplete = () => {
-		completeTask({ ...task, status: "completed" }, setTask);
+		if (!isMobile) {
+			useTasksUIStore.getState().completeTask(id);
+			return;
+		}
+		if (isActive) {
+			useTasksUIStore.getState().completeTask(id);
+		}
 	};
 
 	const onFocus = (preventScroll: boolean) => {
@@ -36,54 +55,92 @@ function Task({ data }: ITaskProps) {
 	};
 
 	useEffect(() => {
+		if (taskRef.current) {
+			const { x, y, width } = getAbsoultePoistion(taskRef.current);
+			useUIStore.getState().updateEditModal({
+				position: { x: x - 12, y: y - 10 },
+				width: width + 24,
+			});
+		}
+
 		onFocus(true);
-	}, [isEditing]);
+	}, [isActive]);
 
 	return (
 		<li
-			id={task.id}
-			className={`group flex gap-[10px] box-border items-center justify-between bg-white ${
-				data.status !== "completed" && "hover:shadow-md"
-			} rounded-md py-[10px] px-3 py-3 text-dark max-h-10`}
+			data-id={task.id}
+			className={`group flex gap-[10px] relative box-border items-center justify-between bg-white dark:bg-dark ${
+				!isCompleted && "hover:shadow-md z-1003"
+			} sm:rounded-md z-1002 py-[10px] px-3 py-3 text-dark dark:text-surface-800 ${
+				isMobile && draftTask && "h-full"
+			} ${isMobile && "min-h-[54px]"} sm:max-h-10`}
+			onClick={(e: React.MouseEvent<HTMLLIElement>) => {
+				if (isMobile && !isActive && !isCompleted) {
+					useUIStore.getState().updateActiveTask(id);
+					useTasksUIStore.getState().editTask(task);
+				}
+			}}
+			ref={taskRef}
 		>
-			<div className="flex gap-1 items-center">
+			<div
+				className={`flex gap-1 items-center justify-center h-full ${
+					isMobile && !draftTask && "max-h-8"
+				} w-full sm:w-auto sm:max-h-6 sm:py-0`}
+			>
 				<Textarea
 					name="textarea-create"
-					id="textarea-create"
-					value={isEditing ? draftTask?.text : task.text}
-					className={`outline-none resize-none field-sizing-content focus-visible:ring-0 focus-visible:ring-transparent border-none shadow-none p-0 min-h-auto select-none disabled:cursor-default`}
-					contentEditable={isEditing}
+					data-id="textarea-create"
+					value={isActive ? draftTask?.text : value}
+					className={`outline-none resize-none field-sizing-content box-border dark:text-surface-800 dark:bg-transparent focus-visible:ring-0 focus-visible:ring-transparent border-none shadow-none p-0 ${
+						isMobile && draftTask && "h-full"
+					} ${isMobile && !draftTask && "max-h-[24px]"} min-h-6 sm:max-h-6 ${
+						!isMobile && "overflow-hidden"
+					} select-none ${
+						!draftTask && "cursor-default"
+					} disabled:cursor-default`}
+					contentEditable={isActive}
 					onChange={(e) => onChange(e.target.value)}
-					disabled={task.status === "completed"}
-					readOnly={!isEditing}
+					disabled={isDisabled}
+					readOnly={!isActive}
 					ref={textareaRef}
 				/>
-
-				{data.status !== "completed" && (
-					<span
-						className="flex items-center justify-center opacity-0 hover:opacity-100 group-hover:opacity-50"
-						onClick={() => {
-							if (!isEditing) {
-								editTask(task);
-								return;
-							}
-							onSave();
-						}}
-					>
-						<Pencil size={16} className="stroke-dark" />
-					</span>
+				{!isMobile && (
+					<>
+						{!isCompleted && (
+							<span
+								className="flex items-center justify-center opacity-0 hover:opacity-100 group-hover:opacity-50"
+								onClick={() => {
+									if (!isActive) {
+										useUIStore.getState().updateEditModal({
+											isOpened: true,
+										});
+										useUIStore.getState().updateIsOpenedOverlay(true);
+										useUIStore.getState().updateActiveTask(id);
+										useTasksUIStore.getState().editTask(task);
+										return;
+									}
+									useUIStore.getState().updateActiveTask(null);
+									onSave();
+								}}
+							>
+								<Pencil size={16} className="stroke-dark dark:stroke-surface" />
+							</span>
+						)}
+					</>
 				)}
 			</div>
-			<span
-				className={`opacity-${
-					data.status === "completed" ? "100" : "0"
-				} group-hover:opacity-100`}
-				onClick={() => {
-					onComplete();
-				}}
-			>
-				<Check size={16} className="stroke-completed" />
-			</span>
+			{!isMobile && (
+				<span
+					className={`opacity-${
+						isCompleted ? "100" : "0"
+					} group-hover:opacity-100`}
+					onClick={() => {
+						onComplete();
+					}}
+				>
+					<Check size={16} className="stroke-completed" />
+				</span>
+			)}
 		</li>
 	);
 }
