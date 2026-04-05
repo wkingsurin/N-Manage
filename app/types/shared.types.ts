@@ -1,2 +1,2 @@
 export type Period = "today" | "week" | "month";
-export type ID = string | null;
+export type ID = string;

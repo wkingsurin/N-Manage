@@ -1,4 +1,4 @@
 export interface ISignOutProps {
-	children: string;
+	children: React.ReactNode | string;
 	className?: string;
 }
